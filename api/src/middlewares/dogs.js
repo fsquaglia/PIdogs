@@ -13,8 +13,8 @@ router.get("/", async (req, res) => {
 
   try {
     if (name) {
-      //GET | /dogs/name?="..."
-      //llego algo por query
+      //GET | /dogs/?name="..."
+      // si name -- > llego algo por query
 
       //*busco todos los dogs de la API
       const { data } = await axios.get(ENDPOINT + "?api_key=" + API_KEY);

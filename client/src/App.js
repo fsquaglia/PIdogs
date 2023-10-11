@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Landing from "./Views/Landing/Landing";
 import Details from "./Views/Details/Details";
 import Form from "./Views/Form/Form";
@@ -9,15 +9,14 @@ import Home from "./Views/Home/Home";
 function App() {
   return (
     <div className="App">
-      <h1>Henry Dogs</h1>
-      <BrowserRouter>
-        <NavBar />
+      {useLocation().pathname !== "/" ? <NavBar /> : null}
 
-        <Route path="/details/:id" component={Details} />
-        <Route path="/home" component={Home} />
-        <Route path="/form" component={Form} />
-        <Route exact path="/" component={Landing} />
-      </BrowserRouter>
+      <Routes>
+        <Route path="/details/:id" Component={Details} />
+        <Route path="/home" Component={Home} />
+        <Route path="/form" Component={Form} />
+        <Route path="/" Component={Landing} />
+      </Routes>
     </div>
   );
 }
