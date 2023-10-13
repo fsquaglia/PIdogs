@@ -17,7 +17,11 @@ const Cards = () => {
   }, [dispatch, dogs]);
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return (
+      <div>
+        <h2>Cargando...</h2>
+      </div>
+    );
   }
 
   return (

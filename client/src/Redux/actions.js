@@ -1,5 +1,10 @@
 //importo las action types
-import { BREED_SEARCH, ALL_DOGS, DOGBYID } from "./actions-types";
+import {
+  BREED_SEARCH,
+  ALL_DOGS,
+  DOGBYID,
+  ALLTEMPERAMENTS,
+} from "./actions-types";
 
 import axios from "axios";
 
@@ -50,6 +55,21 @@ export const dogById = (id) => {
       });
     } catch (error) {
       alert(error.message);
+    }
+  };
+};
+
+export const allTemperaments = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(ENDTEMPERAMENTS);
+
+      dispatch({
+        type: ALLTEMPERAMENTS,
+        payload: data,
+      });
+    } catch (error) {
+      alert("errrrooorrr" + error.message);
     }
   };
 };

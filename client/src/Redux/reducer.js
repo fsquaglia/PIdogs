@@ -1,5 +1,10 @@
 //importar las actions types
-import { BREED_SEARCH, ALL_DOGS, DOGBYID } from "./actions-types";
+import {
+  BREED_SEARCH,
+  ALL_DOGS,
+  DOGBYID,
+  ALLTEMPERAMENTS,
+} from "./actions-types";
 
 //definir el initialState
 let initialState = {
@@ -27,6 +32,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         dogDetail: action.payload,
+      };
+    case ALLTEMPERAMENTS: //recuperar todos los temperamentos
+      return {
+        ...state,
+        allTemperaments: action.payload,
       };
     default:
       return state;

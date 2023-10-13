@@ -7,40 +7,49 @@ const { ENDPOINT, API_KEY } = process.env;
 const axios = require("axios");
 
 router.get("/", async (req, res) => {
-  let arrTempWithoutSpace = [];
   try {
     const { data } = await axios.get(ENDPOINT + "?api_key=" + API_KEY);
     //extraigo todos los string con los temperamentos
     //devuelve un array con elementos, cada elemento
     //es un string de temperamentos delimitados por comas
+    let newArray = [];
+    data.forEach((dogData) => {
+      if (dogData.temperament) newArray.push(dogData.temperament);
+    });
 
-    const arrTemperam = data.flatMap((element) =>
-      element.temperament ? element.temperament.split(",") : []
-    );
+    const arrTemperam = newArray.flatMap((element) => element.split(","));
 
     //elimino los espacios al principio de cada string si los hay
+    let arrTempWithoutSpace = [];
     arrTemperam.forEach((element) => {
-      arrTempWithoutSpace.push(element.trimStart().toLowerCase());
+      arrTempWithoutSpace.push(element?.trimStart());
     });
 
     //elimino los elementos duplicados
-    const arraySet = [...new Set(arrTempWithoutSpace)];
-    const arrTemperaments = [];
+    let arraySet = [];
+
+    for (let i = 0; i < arrTempWithoutSpace.length; i++) {
+      if (arraySet.indexOf(arrTempWithoutSpace[i]) === -1) {
+        arraySet.push(arrTempWithoutSpace[i]);
+      }
+    }
 
     //coloco primera letra en mayúsculas
-    arraySet.forEach((e) => {
-      arrTemperaments.push(e.charAt(0).toUpperCase() + e.slice(1));
-    });
+    // let arrTemperaments = [];
+    // arraySet.forEach((e) => {
+    //   arrTemperaments.push(e.charAt(0).toUpperCase() + e.slice(1));
+    // });
 
     //!creo el array de objetos traidos de la API dogsTemperaments
     const dogsTemperaments = [];
-    arrTemperaments.forEach((e) => {
+    arraySet.forEach((e) => {
       dogsTemperaments.push({ name: e });
     });
 
     //verificar si los datos que voy a ingresar a la BD están duplicados
     //!aqui estarán los datos de la BD temperamentsDB
     const temperamentsDB = await Temperament.findAll();
+    console.log(temperamentsDB);
 
     let tBD;
 
@@ -51,14 +60,18 @@ router.get("/", async (req, res) => {
       // res.status(200).json(tBD);
     } else {
       //la base de datos tiene registros, hay que comprobar duplicados
-      const newArrTemp = [];
-      for (let index = 0; index < dogsTemperaments.length; index++) {
-        for (let index = 0; index < temperamentsDB.length; index++) {
-          if (dogsTemperaments[index].name !== temperamentsDB[index].name) {
-            newArrTemp.push(dogsTemperaments);
-          }
-        }
-      }
+      // const newArrTemp = [];
+      // for (let index = 0; index < dogsTemperaments.length; index++) {
+      //   for (let j = 0; j < temperamentsDB.length; j++) {
+      //     if (dogsTemperaments[index].name !== temperamentsDB[j].name) {
+      //       newArrTemp.push(dogsTemperaments[index]);
+      //     }
+      //   }
+      // }
+      const newArrTemp = dogsTemperaments.filter((dogTemp) => {
+        return !temperamentsDB.some((dbTemp) => dogTemp.name === dbTemp.name);
+      });
+      console.log(newArrTemp);
       await Temperament.bulkCreate(newArrTemp);
       tBD = await Temperament.findAll();
       // res.status(200).json(tBD);

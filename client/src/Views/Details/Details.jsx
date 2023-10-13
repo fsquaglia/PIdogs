@@ -1,22 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dogById } from "../../Redux/actions";
 import Card from "../../Components/Card/Card";
 
 const Details = () => {
   const { id } = useParams();
-  const [dog, setDog] = useState({});
   const dispatch = useDispatch();
   const dogDetail = useSelector((state) => state.dogDetail);
 
   useEffect(() => {
+    // Dispatch the action to fetch dog details using the 'id' from params
     dispatch(dogById(id));
-    setDog(dogDetail);
-  }, [id, dogDetail]);
+  }, [id]);
 
-  if (!dog) {
+  // You can directly use dogDetail from the Redux store
+  if (!dogDetail) {
     return (
       <div>
         <h2 style={{ color: "white" }}>Loading....</h2>
@@ -24,18 +23,21 @@ const Details = () => {
     );
   }
 
+  const { name, temperament, weight, reference_image_id, height, life_span } =
+    dogDetail;
+
   return (
     <div>
       <h2>Details</h2>
       <Card
-        key={dog.id}
-        id={dog.id}
-        name={dog.name}
-        temperament={dog.temperament}
-        weight={dog.weight}
-        image={dog.reference_image_id}
-        height={dog.height}
-        life_span={dog.life_span}
+        key={dogDetail.id}
+        id={dogDetail.id}
+        name={name}
+        temperament={temperament}
+        weight={weight}
+        image={reference_image_id}
+        height={height}
+        life_span={life_span}
       />
     </div>
   );

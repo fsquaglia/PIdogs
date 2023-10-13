@@ -1,0 +1,38 @@
+export default function validations(data) {
+  let errors = {};
+
+  if (!data.name) {
+    errors.name = "Ingresa un nombre de raza";
+  } else {
+    if (data.name.length < 3 || data.name.length > 35)
+      errors.name = "Raza entre 3 y 35 caracteres";
+    if (/\d/.test(data.name)) errors.name = "No uses números en el nombre";
+  }
+
+  if (!data.heightMin || !data.heightMax) {
+    errors.height = "Ingresa las alturas";
+  } else {
+    if (Number(data.heightMin) > Number(data.heightMax)) {
+      errors.height = "La altura Max debe superar a la Min";
+    }
+  }
+
+  if (!data.weightMin || !data.weightMax) {
+    errors.weight = "Ingresa valores para el peso";
+  } else {
+    if (Number(data.weightMin) > Number(data.weightMax)) {
+      errors.weight = "El peso Max debe superar al Min";
+    }
+  }
+
+  if (!data.lifeMin || !data.lifeMax) {
+    errors.life = "Ingresa expectativa de vida";
+  } else {
+    if (Number(data.lifeMin) > Number(data.lifeMax)) {
+      errors.life = "La edad Max debe superar a la Min";
+    }
+  }
+
+  if (!data.image) errors.image = "Selecciona una imagen";
+  return errors;
+}
