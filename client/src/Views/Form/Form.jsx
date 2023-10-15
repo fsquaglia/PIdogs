@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import validations from "../../utils/validations";
 import FormComponent from "./FormComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { allTemperaments } from "../../Redux/actions";
 
 require("dotenv").config();
 const ENDIMGDOGS = process.env.REACT_APP_ENDIMGDOGS;
@@ -21,6 +23,15 @@ const StyledImage = styled.img`
 `;
 
 const Form = () => {
+  const dispatch = useDispatch();
+  const tempGlobal = useSelector((state) => state.allTemperaments);
+  useEffect(() => {
+    // Realiza la acción de carga de temps si aún no se han cargado
+    if (tempGlobal.length === 0) {
+      dispatch(allTemperaments());
+    }
+  }, [dispatch, tempGlobal]);
+
   const [selectedImage, setSelectedImage] = useState("");
   const [dogData, setDogData] = useState({
     name: "",
@@ -31,6 +42,7 @@ const Form = () => {
     lifeMin: "",
     lifeMax: "",
     image: "",
+    selectedTemperaments: [],
   });
   const [errors, setErrors] = useState({});
 
@@ -47,14 +59,58 @@ const Form = () => {
   //almacen en el estado local la imagen cliqueada
   const handleImageClick = (imageURL) => {
     setSelectedImage(imageURL);
-
-    // setDogData({ ...dogData, image: "selected" });
-    setErrors(validations({ ...dogData, image: "selected" }));
+    setDogData({ ...dogData, image: imageURL });
+    setErrors(validations({ ...dogData, image: imageURL }));
   };
+
+  //!-------------------
+  const handleTemperamentToggle = (temperament) => {
+    if (dogData.selectedTemperaments.includes(temperament)) {
+      let temper = dogData.selectedTemperaments.filter(
+        (temp) => temp !== temperament
+      );
+      setDogData({
+        ...dogData,
+        selectedTemperaments: temper,
+      });
+      setErrors(
+        validations({
+          ...dogData,
+          selectedTemperaments: temper,
+        })
+      );
+    } else {
+      setDogData({
+        ...dogData,
+        selectedTemperaments: [...dogData.selectedTemperaments, temperament],
+      });
+      setErrors(
+        validations({
+          ...dogData,
+          selectedTemperaments: [...dogData.selectedTemperaments, temperament],
+        })
+      );
+    }
+  };
+
+  //controlamos la seleccion de temperamentos en FormComponent
+  // const handleTemperament = (value) => {
+  //   if (value) {
+  //     //hay temperamentos seleccionados
+  //     setDogData({ ...dogData, temperament: true });
+  //     setErrors(validations({ ...dogData, temperament: true }));
+  //   } else {
+  //     setDogData({ ...dogData, temperament: false });
+  //     setErrors(validations({ ...dogData, temperament: false }));
+  //   }
+  // };
+
+  //!----------------------
 
   //lógica de envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(dogData);
   };
 
   //logica de cambios en inputs
@@ -169,7 +225,12 @@ const Form = () => {
           ))}
         </div>
         <p style={{ color: "#ff9800" }}> {errors.image}</p>
-        <FormComponent />
+        <FormComponent
+          error={errors.selectedTemperaments}
+          handleTemperamentToggle={handleTemperamentToggle}
+          selectedTemperaments={dogData.selectedTemperaments}
+        />
+        <br />
         <button type="submit">Agregar</button>
       </form>
     </div>
@@ -177,13 +238,3 @@ const Form = () => {
 };
 
 export default Form;
-
-/*
-Nombre.
-Altura (diferenciar entre altura mínima y máxima de la raza).
-Peso (diferenciar entre peso mínimo y máximo de la raza).
-Años de vida.
-Posibilidad de seleccionar/agregar varios temperamentos en simultáneo.
-Botón para crear la nueva raza.
-[IMPORANTE]: es requisito que el formulario de creación esté validado sólo con JavaScript. Puedes agregar las validaciones que consideres. Por ejemplo: que el nombre de la raza no pueda contener números, o que el peso/altura mínimo no pueda ser mayor al máximo.
-*/

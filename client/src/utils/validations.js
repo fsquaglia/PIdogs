@@ -34,5 +34,9 @@ export default function validations(data) {
   }
 
   if (!data.image) errors.image = "Selecciona una imagen";
+
+  if (data.selectedTemperaments.length === 0)
+    errors.selectedTemperaments = "Selecciona al menos un temperamento";
+
   return errors;
 }

@@ -6,7 +6,6 @@ import { Link, useLocation } from "react-router-dom";
 require("dotenv").config();
 const ENDIMGS = process.env.REACT_APP_ENDIMGS;
 
-//!estilos con styled-component
 const StyleImage = styled.img`
   width: 220px;
   height: 220px;
@@ -14,21 +13,22 @@ const StyleImage = styled.img`
 `;
 
 const Card = (props) => {
-  const imgRout = props.image ? ENDIMGS + props.image + ".jpg" : imgNotDog; //ruta de la imagen
-
-  //manejo del error si no responde la URL de la img
-  //cargamos img alternativa
-  const handleError = (e) => {
-    e.target.src = imgNotDog;
-  };
+  // Comprobar si se cargó la imagen con éxito o usar una imagen alternativa en caso de error
+  const imgRout = props.image ? ENDIMGS + props.image + ".jpg" : imgNotDog;
 
   if (useLocation().pathname === "/home") {
-    //renderizado desde las Cards Home
     return (
       <div>
         <h3>{props.name}</h3>
         <Link to={`/details/${props.id}`}>
-          <StyleImage src={imgRout} alt="Image dogs" onError={handleError} />
+          {/* Usar el atributo onError para manejar errores de carga de imagen */}
+          <StyleImage
+            src={imgRout}
+            alt="Image dogs"
+            onError={(e) => {
+              e.target.src = imgNotDog; // Cambiar a la imagen alternativa en caso de error
+            }}
+          />
         </Link>
         <p>Temperamentos: {props.temperament}</p>
         <p>Peso: {props.weight}</p>
@@ -36,10 +36,15 @@ const Card = (props) => {
     );
   } else {
     return (
-      //renderizado del details
       <div>
         <h3>{props.name}</h3>
-        <StyleImage src={imgRout} alt="Image dogs" onError={handleError} />
+        <StyleImage
+          src={imgRout}
+          alt="Image dogs"
+          onError={(e) => {
+            e.target.src = imgNotDog;
+          }}
+        />
         <p>Temperamentos: {props.temperament}</p>
         <p>Peso: {props.weight}</p>
         <p>Altura: {props.height}</p>

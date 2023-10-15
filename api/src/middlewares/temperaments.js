@@ -49,7 +49,6 @@ router.get("/", async (req, res) => {
     //verificar si los datos que voy a ingresar a la BD están duplicados
     //!aqui estarán los datos de la BD temperamentsDB
     const temperamentsDB = await Temperament.findAll();
-    console.log(temperamentsDB);
 
     let tBD;
 
@@ -71,7 +70,7 @@ router.get("/", async (req, res) => {
       const newArrTemp = dogsTemperaments.filter((dogTemp) => {
         return !temperamentsDB.some((dbTemp) => dogTemp.name === dbTemp.name);
       });
-      console.log(newArrTemp);
+
       await Temperament.bulkCreate(newArrTemp);
       tBD = await Temperament.findAll();
       // res.status(200).json(tBD);

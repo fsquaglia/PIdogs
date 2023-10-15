@@ -69,7 +69,7 @@ export const allTemperaments = () => {
         payload: data,
       });
     } catch (error) {
-      alert("errrrooorrr" + error.message);
+      alert(error.message);
     }
   };
 };

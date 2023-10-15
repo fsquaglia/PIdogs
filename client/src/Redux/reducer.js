@@ -4,6 +4,7 @@ import {
   ALL_DOGS,
   DOGBYID,
   ALLTEMPERAMENTS,
+  PAGINATE,
 } from "./actions-types";
 
 //definir el initialState
@@ -12,6 +13,8 @@ let initialState = {
   allTemperaments: [],
   breedDogs: [],
   dogDetail: {},
+  selectedTemperaments: [],
+  currentPage: 0,
 };
 
 //definir la función rootReducer

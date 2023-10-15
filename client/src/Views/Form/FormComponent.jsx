@@ -1,21 +1,40 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { allTemperaments } from "../../Redux/actions";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
-const FormComponent = () => {
-  const [selectedTemperaments, setSelectedTemperaments] = useState([]);
+const StyledFormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const StyledTemperamentList = styled.div`
+  max-height: 200px;
+  overflow-y: auto;
+  width: 300px;
+`;
+
+const FormComponent = ({
+  error,
+  handleTemperamentToggle,
+  selectedTemperaments,
+}) => {
+  const tempGlobal = useSelector((state) => state.allTemperaments);
+
+  //   const [selectedTemperaments, setSelectedTemperaments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const dispatch = useDispatch();
 
-  const temperaments = useSelector((state) => state.allTemperaments);
+  // Verifica si tempGlobal está definido y no es null
+  const temperaments = [];
+  if (tempGlobal) {
+    tempGlobal.forEach((temp) => {
+      temperaments.push(temp.name);
+    });
+  }
 
-  useEffect(() => {
-    // Realiza la acción de carga de perros si aún no se han cargado
-    if (temperaments.length === 0) {
-      dispatch(allTemperaments());
-    }
-  }, [dispatch, temperaments]);
+  const filteredTemperaments = temperaments.filter((temperament) =>
+    temperament.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   //   const handleTemperamentToggle = (temperament) => {
   //     if (selectedTemperaments.includes(temperament)) {
   //       setSelectedTemperaments(
@@ -26,35 +45,34 @@ const FormComponent = () => {
   //     }
   //   };
 
-  //   const filteredTemperaments = temperaments.filter((temperament) =>
-  //     temperament.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-
   return (
     <>
-      <div>
-        {/* <input
-          type="text"
-          placeholder="Buscar temperamento"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <div className="temperament-list">
-          {filteredTemperaments.map((temperament) => (
-            <div
-              key={temperament}
-              onClick={() => handleTemperamentToggle(temperament)}
-            >
-              {temperament}
-            </div>
+      <StyledFormContainer>
+        <div>
+          <input
+            type="text"
+            placeholder="Buscar temperamento"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <StyledTemperamentList>
+            {filteredTemperaments.map((temperament) => (
+              <div
+                key={temperament}
+                onClick={() => handleTemperamentToggle(temperament)}
+              >
+                {temperament}
+              </div>
+            ))}
+          </StyledTemperamentList>
+        </div>
+        <div className="selected-temperaments">
+          {selectedTemperaments.map((temperament) => (
+            <div key={temperament}>{temperament}</div>
           ))}
         </div>
-      </div>
-      <div className="selected-temperaments">
-        {selectedTemperaments.map((temperament) => (
-          <div key={temperament}>{temperament}</div>
-        ))} */}
-      </div>
+      </StyledFormContainer>
+      <p style={{ color: "#ff9800" }}> {error}</p>
     </>
   );
 };
