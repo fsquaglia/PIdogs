@@ -4,28 +4,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { breedSearch } from "../../Redux/actions";
 
 const Searchbar = () => {
-  //almaceno la ejecución de dispatch
   const dispatch = useDispatch();
-  const prueba = useSelector((state) => state.breedDogs);
-  //guardo la raza que voy a buscar
+  const searchResults = useSelector((state) => state.breedDogs); // Guardar los resultados de la búsqueda
   const [breedName, setBreedname] = useState("");
+  const [noResults, setNoResults] = useState(false); // Estado para controlar si no hay coincidencias
 
-  useEffect(() => {
-    if (prueba.length > 0) {
-      console.log(prueba);
-    }
-  }, [prueba]);
-  //manejo del botón submit del formulario para buscar razas de perros
   const handleSubmit = (event) => {
     event.preventDefault();
-    //debe hacer un dispatch buscando por breedName
     dispatch(breedSearch(breedName));
   };
 
-  //control de los cambios del input
+  const handleClicShowAll = () => {
+    dispatch(breedSearch(""));
+    setNoResults(false); // Reiniciar el estado de noResults
+  };
+
   const handleChange = (e) => {
     setBreedname(e.target.value);
   };
+
+  useEffect(() => {
+    if (searchResults.length === 0) {
+      setNoResults(true); // Actualizar el estado si no hay coincidencias
+    } else {
+      setNoResults(false); // Reiniciar el estado si hay coincidencias
+    }
+  }, [searchResults]);
 
   return (
     <div>
@@ -36,8 +40,13 @@ const Searchbar = () => {
           id="breedSearch"
           onChange={handleChange}
         />
-        <input type="submit" value="Buscar" />
+        <button type="submit">Buscar</button>
+        <button type="button" onClick={handleClicShowAll}>
+          Todos
+        </button>
       </form>
+      {noResults && <p>No se encontraron coincidencias</p>}{" "}
+      {/* Mostrar mensaje de alerta */}
     </div>
   );
 };

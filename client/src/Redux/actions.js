@@ -4,6 +4,7 @@ import {
   ALL_DOGS,
   DOGBYID,
   ALLTEMPERAMENTS,
+  SET_CURRENT_PAGE,
 } from "./actions-types";
 
 import axios from "axios";
@@ -11,6 +12,12 @@ import axios from "axios";
 require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
+
+//fn para el paginado
+export const setCurrentPage = (page) => ({
+  type: SET_CURRENT_PAGE,
+  payload: page,
+});
 
 //fn busca perros por raza (breed)
 export const breedSearch = (breed) => {

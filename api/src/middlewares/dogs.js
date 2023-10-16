@@ -67,10 +67,10 @@ router.get("/", async (req, res) => {
 
       if (dogsFilter) {
         //hay datos en el filtro, entonces los envio
-        res.status(200).json(dogsFilter);
+        return res.status(200).json(dogsFilter);
       } else {
         //no devuelve datos el filtro
-        res.status(200).json({ result: "No encontramos coincidencias" });
+        return res.status(200).json([]);
       }
     } else {
       //*no llego nada por query, muestro todos los dogs

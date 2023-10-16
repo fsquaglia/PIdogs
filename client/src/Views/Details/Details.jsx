@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { dogById } from "../../Redux/actions";
@@ -8,17 +8,23 @@ const Details = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const dogDetail = useSelector((state) => state.dogDetail);
+  const [showCard, setShowCard] = useState(false); // Controla la visibilidad de la Card
 
   useEffect(() => {
-    // Dispatch the action to fetch dog details using the 'id' from params
+    setShowCard(false);
     dispatch(dogById(id));
   }, [id]);
 
-  // You can directly use dogDetail from the Redux store
+  useEffect(() => {
+    if (dogDetail) {
+      setShowCard(true);
+    }
+  }, [dogDetail]);
+
   if (!dogDetail) {
     return (
       <div>
-        <h2 style={{ color: "white" }}>Loading....</h2>
+        <h2>Loading....</h2>
       </div>
     );
   }
@@ -28,17 +34,19 @@ const Details = () => {
 
   return (
     <div>
-      <h2>Details</h2>
-      <Card
-        key={dogDetail.id}
-        id={dogDetail.id}
-        name={name}
-        temperament={temperament}
-        weight={weight}
-        image={reference_image_id}
-        height={height}
-        life_span={life_span}
-      />
+      <h2>Más detalles de: {name}</h2>
+      {showCard && (
+        <Card
+          key={dogDetail.id}
+          id={dogDetail.id}
+          name={name}
+          temperament={temperament}
+          weight={weight}
+          image={reference_image_id}
+          height={height}
+          life_span={life_span}
+        />
+      )}
     </div>
   );
 };

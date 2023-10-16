@@ -6,6 +6,14 @@ import { Link, useLocation } from "react-router-dom";
 require("dotenv").config();
 const ENDIMGS = process.env.REACT_APP_ENDIMGS;
 
+const CardContainer = styled.div`
+  width: 300px; /* Establece el ancho deseado para la tarjeta */
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  /* Agrega otros estilos según tus preferencias */
+`;
+
 const StyleImage = styled.img`
   width: 220px;
   height: 220px;
@@ -13,62 +21,52 @@ const StyleImage = styled.img`
 `;
 
 const Card = (props) => {
-  // Comprobar si se cargó la imagen con éxito o usar una imagen alternativa en caso de error
   const imgRout = props.image ? ENDIMGS + props.image + ".jpg" : imgNotDog;
 
   if (useLocation().pathname === "/home") {
     return (
-      <div>
-        <h3>{props.name}</h3>
+      <CardContainer>
+        {props.name && <h3>{props.name}</h3>}
         <Link to={`/details/${props.id}`}>
-          {/* Usar el atributo onError para manejar errores de carga de imagen */}
-          <StyleImage
-            src={imgRout}
-            alt="Image dogs"
-            onError={(e) => {
-              e.target.src = imgNotDog; // Cambiar a la imagen alternativa en caso de error
-            }}
-          />
+          {props.image ? (
+            <StyleImage
+              src={imgRout}
+              alt="Dogs"
+              onError={(e) => {
+                e.target.src = imgNotDog;
+              }}
+            />
+          ) : (
+            <img src={imgNotDog} alt="Dogs" />
+          )}
         </Link>
-        <p>Temperamentos: {props.temperament}</p>
-        <p>Peso: {props.weight}</p>
-      </div>
+        {props.temperament && <p>Temperamentos: {props.temperament}</p>}
+        {props.weight && <p>Peso: {props.weight}</p>}
+      </CardContainer>
     );
   } else {
     return (
-      <div>
-        <h3>{props.name}</h3>
-        <StyleImage
-          src={imgRout}
-          alt="Image dogs"
-          onError={(e) => {
-            e.target.src = imgNotDog;
-          }}
-        />
-        <p>Temperamentos: {props.temperament}</p>
-        <p>Peso: {props.weight}</p>
-        <p>Altura: {props.height}</p>
-        <p>Años de vida: {props.life_span}</p>
-        <p></p>
-      </div>
+      <CardContainer>
+        {props.name && <h3>{props.name}</h3>}
+
+        {props.image ? (
+          <StyleImage
+            src={imgRout}
+            alt="Dogs"
+            onError={(e) => {
+              e.target.src = imgNotDog;
+            }}
+          />
+        ) : (
+          <img src={imgNotDog} alt="Dogs" />
+        )}
+        {props.temperament && <p>Temperamentos: {props.temperament}</p>}
+        {props.weight && <p>Peso: {props.weight}</p>}
+        {props.height && <p>Altura: {props.height}</p>}
+        {props.life_span && <p>Años de vida: {props.life_span}</p>}
+      </CardContainer>
     );
   }
 };
 
 export default Card;
-
-//!componente details
-// key={dogDetail.id}
-// id={dogDetail.id}
-// name={name}
-// temperament={temperament}
-// weight={weight}
-// image={reference_image_id}
-// height={height}
-// life_span={life_span}
-
-//!componente Cards
-// Imagen.
-// Nombre.
-// Temperamentos.
-// Peso.
