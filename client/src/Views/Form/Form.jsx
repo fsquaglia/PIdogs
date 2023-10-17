@@ -23,14 +23,15 @@ const StyledImage = styled.img`
 `;
 
 const Form = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const tempGlobal = useSelector((state) => state.allTemperaments);
-  useEffect(() => {
-    // Realiza la acción de carga de temps si aún no se han cargado
-    if (tempGlobal.length === 0) {
-      dispatch(allTemperaments());
-    }
-  }, [dispatch, tempGlobal]);
+
+  //! Realiza la acción de carga de temps si aún no se han cargado
+  // useEffect(() => {
+  //   if (tempGlobal.length === 0) {
+  //     dispatch(allTemperaments());
+  //   }
+  // }, [dispatch, tempGlobal]);
 
   const [selectedImage, setSelectedImage] = useState("");
   const [dogData, setDogData] = useState({

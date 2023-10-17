@@ -5,6 +5,9 @@ import {
   DOGBYID,
   ALLTEMPERAMENTS,
   SET_CURRENT_PAGE,
+  ORDER,
+  FILTER_BY_ORIGIN,
+  FILTER_BY_TEMPERAMENT,
 } from "./actions-types";
 
 import axios from "axios";
@@ -12,6 +15,30 @@ import axios from "axios";
 require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
+
+//fn filtrar por origen API o BD
+export const filterByOrigin = (origin) => {
+  return {
+    type: FILTER_BY_ORIGIN,
+    payload: origin,
+  };
+};
+
+//fn filtrar por temperamentos
+export const filterByTemperam = (temp) => {
+  return {
+    type: FILTER_BY_TEMPERAMENT,
+    payload: temp,
+  };
+};
+
+//fn ordenamiento
+export const orderCards = (order) => {
+  return {
+    type: ORDER,
+    payload: order,
+  };
+};
 
 //fn para el paginado
 export const setCurrentPage = (page) => ({

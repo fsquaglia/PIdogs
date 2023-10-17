@@ -18,13 +18,13 @@ const Cards = () => {
   const itemsPerPage = useSelector((state) => state.itemsPerPage);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Realiza la acción de carga de perros si aún no se han cargado
-    if (dogs.length === 0) {
-      dispatch(allDogs());
-    }
-    setLoading(false);
-  }, [dispatch, dogs]);
+  //! Realiza la acción de carga de perros si aún no se han cargado
+  // useEffect(() => {
+  //   if (dogs.length === 0) {
+  //     dispatch(allDogs());
+  //   }
+  //   setLoading(false);
+  // }, [dispatch, dogs]);
 
   //*paginación
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -55,10 +55,12 @@ const Cards = () => {
     }
   };
 
-  if (loading) {
+  if (dogs.length === 0) {
     return (
       <div>
-        <h2>Cargando...</h2>
+        <p>ups! nada por aquí?</p>
+
+        <p>Replantea tu búsqueda y quita algunos filtros.</p>
       </div>
     );
   }

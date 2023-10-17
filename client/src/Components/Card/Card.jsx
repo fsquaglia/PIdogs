@@ -37,7 +37,7 @@ const Card = (props) => {
               }}
             />
           ) : (
-            <img src={imgNotDog} alt="Dogs" />
+            <StyleImage src={imgNotDog} alt="Dogs" />
           )}
         </Link>
         {props.temperament && <p>Temperamentos: {props.temperament}</p>}
@@ -58,7 +58,7 @@ const Card = (props) => {
             }}
           />
         ) : (
-          <img src={imgNotDog} alt="Dogs" />
+          <StyleImage src={imgNotDog} alt="Dogs" />
         )}
         {props.temperament && <p>Temperamentos: {props.temperament}</p>}
         {props.weight && <p>Peso: {props.weight}</p>}

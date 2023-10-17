@@ -8,58 +8,62 @@ const { Sequelize, Op } = require("sequelize");
 const axios = require("axios");
 
 router.get("/", async (req, res) => {
-  //GET | /dogs (todas las razas de perros)
+  //GET | /dogs (todas las razas de perros, o las solicitadas por query)
   const { name } = req.query;
+  let allDogs = [];
 
   try {
+    //! aca va todo
+    //*busco todos los dogs de la API
+    const { data } = await axios.get(ENDPOINT + "?api_key=" + API_KEY);
+
+    const dogsApi = data.map((obj) => ({
+      name: obj.name,
+      id: obj.id,
+      reference_image_id: obj.reference_image_id,
+      height: obj.height.metric,
+      weight: obj.weight.metric,
+      life_span: obj.life_span,
+      temperament: obj.temperament,
+      origin: "API",
+    }));
+
+    //*busco todos los dogs de la BD
+    const dogs = await Dog.findAll({
+      where: {},
+      include: [
+        {
+          model: Temperament,
+          through: { attributes: [] },
+          attributes: ["name"],
+        },
+      ],
+    });
+    // Arreglo para almacenar los resultados formateados
+    const dogsBD = [];
+
+    dogs.forEach((dog) => {
+      const temperaments = dog.Temperaments.map((temp) => temp.name).join(", ");
+      const formattedDog = {
+        id: dog.id,
+        name: dog.name,
+        reference_image_id: dog.reference_image_id,
+        height: dog.height,
+        weight: dog.weight,
+        life_span: dog.life_span,
+        temperament: temperaments,
+        origin: "BD",
+      };
+      dogsBD.push(formattedDog);
+    });
+    //*junto los datos de API y BD
+    allDogs = [...dogsApi, ...dogsBD];
+
+    //! hasta acca
+
     if (name) {
       //GET | /dogs/?name="..."
       // si name -- > llego algo por query
-
-      //*busco todos los dogs de la API
-      const { data } = await axios.get(ENDPOINT + "?api_key=" + API_KEY);
-
-      const dogsApi = data.map((obj) => ({
-        name: obj.name,
-        id: obj.id,
-        reference_image_id: obj.reference_image_id,
-        height: obj.height.metric,
-        weight: obj.weight.metric,
-        life_span: obj.life_span,
-        temperament: obj.temperament,
-      }));
-
-      //*busco todos los dogs de la BD
-      const dogs = await Dog.findAll({
-        where: {},
-        include: [
-          {
-            model: Temperament,
-            through: { attributes: [] },
-            attributes: ["name"],
-          },
-        ],
-      });
-      // Arreglo para almacenar los resultados formateados
-      const dogsBD = [];
-
-      dogs.forEach((dog) => {
-        const temperaments = dog.Temperaments.map((temp) => temp.name).join(
-          ", "
-        );
-        const formattedDog = {
-          id: dog.id,
-          name: dog.name,
-          reference_image_id: dog.reference_image_id,
-          height: dog.height,
-          weight: dog.weight,
-          life_span: dog.life_span,
-          temperaments: temperaments,
-        };
-        dogsBD.push(formattedDog);
-      });
-      //*junto los datos de API y BD
-      let allDogs = [...dogsApi, ...dogsBD];
 
       const dogsFilter = allDogs.filter((dog) =>
         dog.name.toLowerCase().includes(name.toLowerCase())
@@ -74,19 +78,7 @@ router.get("/", async (req, res) => {
       }
     } else {
       //*no llego nada por query, muestro todos los dogs
-      const { data } = await axios.get(ENDPOINT + "?api_key=" + API_KEY);
-
-      // Crear un nuevo arreglo con objetos que solo contengan las propiedades deseadas
-      const newData = data.map((obj) => ({
-        name: obj.name,
-        id: obj.id,
-        reference_image_id: obj.reference_image_id,
-        height: obj.height.metric,
-        weight: obj.weight.metric,
-        life_span: obj.life_span,
-        temperament: obj.temperament,
-      }));
-      res.status(200).json(newData);
+      res.status(200).json(allDogs);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -126,7 +118,7 @@ router.get("/:idRaza", async (req, res) => {
         height: dogByIdBd.height,
         weight: dogByIdBd.weight,
         life_span: dogByIdBd.life_span,
-        temperaments: temperaments, // Asigna el string de temperamentos
+        temperament: temperaments, // Asigna el string de temperamentos
       };
     } else {
       //es un numero, buscamos en la API
