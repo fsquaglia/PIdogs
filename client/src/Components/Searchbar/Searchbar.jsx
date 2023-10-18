@@ -1,20 +1,23 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { breedSearch } from "../../Redux/actions";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { allDogs, breedSearch, filterAndOrder } from "../../Redux/actions";
 
 const Searchbar = () => {
   const dispatch = useDispatch();
 
   const [breedName, setBreedname] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(breedSearch(breedName));
+    await dispatch(breedSearch(breedName));
+    dispatch(filterAndOrder());
   };
 
-  const handleClicShowAll = () => {
-    dispatch(breedSearch(""));
+  const handleClicShowAll = async () => {
+    await dispatch(allDogs());
+    dispatch(filterAndOrder());
+    setBreedname("");
   };
 
   const handleChange = (e) => {
@@ -29,6 +32,7 @@ const Searchbar = () => {
           name="breedSearch"
           id="breedSearch"
           onChange={handleChange}
+          value={breedName}
         />
         <button type="submit">Buscar</button>
         <button type="button" onClick={handleClicShowAll}>

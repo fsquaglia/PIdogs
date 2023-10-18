@@ -29,13 +29,16 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    const delay = 1000;
-    setTimeout(() => {
-      // Realizar las llamadas a las acciones de Redux
-      dispatch(allDogs()); // Cargar datos de perros
-      dispatch(allTemperaments()); // Cargar datos de temperamentos
-      setButtonDisabled(false);
-    }, delay);
+    dispatch(allDogs()); // Cargar datos de perros
+    dispatch(allTemperaments()); // Cargar datos de temperamentos
+    setButtonDisabled(false);
+    // const delay = 1000;
+    // setTimeout(() => {
+    //   // Realizar las llamadas a las acciones de Redux
+    //   dispatch(allDogs()); // Cargar datos de perros
+    //   dispatch(allTemperaments()); // Cargar datos de temperamentos
+    //   setButtonDisabled(false);
+    // }, delay);
   }, [dispatch]);
 
   return (

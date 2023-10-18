@@ -6,3 +6,7 @@ export const SET_CURRENT_PAGE = "paginate";
 export const ORDER = "order";
 export const FILTER_BY_ORIGIN = "filterbyorigin";
 export const FILTER_BY_TEMPERAMENT = "filtertemperament";
+export const ORDER_VALUE = "orderValue";
+export const FILTERAPIBD_VALUE = "filterapibdvalue";
+export const FILTERBYTEMPER_VALUE = "filterbytemperament";
+export const FILTERS = "filters";

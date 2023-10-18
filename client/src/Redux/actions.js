@@ -8,6 +8,10 @@ import {
   ORDER,
   FILTER_BY_ORIGIN,
   FILTER_BY_TEMPERAMENT,
+  FILTERAPIBD_VALUE,
+  FILTERBYTEMPER_VALUE,
+  ORDER_VALUE,
+  FILTERS,
 } from "./actions-types";
 
 import axios from "axios";
@@ -15,6 +19,34 @@ import axios from "axios";
 require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
+
+//fns para manejar value de select
+export const selectOrderValue = (value) => {
+  return {
+    type: ORDER_VALUE,
+    payload: value,
+  };
+};
+export const selectOriginValue = (value) => {
+  return {
+    type: FILTERAPIBD_VALUE,
+    payload: value,
+  };
+};
+export const selectTemperValue = (value) => {
+  return {
+    type: FILTERBYTEMPER_VALUE,
+    payload: value,
+  };
+};
+
+//filtros y ordenamiento
+export const filterAndOrder = () => {
+  return {
+    type: FILTERS,
+    payload: "",
+  };
+};
 
 //fn filtrar por origen API o BD
 export const filterByOrigin = (origin) => {

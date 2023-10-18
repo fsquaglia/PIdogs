@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import validations from "../../utils/validations";
 import FormComponent from "./FormComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { allTemperaments } from "../../Redux/actions";
+import { useSelector } from "react-redux";
 
 require("dotenv").config();
 const ENDIMGDOGS = process.env.REACT_APP_ENDIMGDOGS;

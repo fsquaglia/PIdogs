@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "../Card/Card";
-import { allDogs } from "../../Redux/actions";
-import { setCurrentPage } from "../../Redux/actions";
+import { filterAndOrder, setCurrentPage } from "../../Redux/actions";
 import styled from "styled-components";
 
 const DivCardContainer = styled.div`
@@ -16,15 +15,19 @@ const Cards = () => {
   const dogs = useSelector((state) => state.breedDogs);
   const currentPage = useSelector((state) => state.currentPage);
   const itemsPerPage = useSelector((state) => state.itemsPerPage);
-  const [loading, setLoading] = useState(true);
 
-  //! Realiza la acción de carga de perros si aún no se han cargado
+  // const [hasUpdated, setHasUpdated] = useState(false); // Variable de control
   // useEffect(() => {
-  //   if (dogs.length === 0) {
-  //     dispatch(allDogs());
+  //   if (!hasUpdated) {
+  //     dispatch(filterAndOrder());
+  //     setHasUpdated(true);
   //   }
-  //   setLoading(false);
-  // }, [dispatch, dogs]);
+  // }, [dispatch, dogs, hasUpdated]); //hasUpdated
+
+  // useEffect(() => {
+  //   // Restablecer la variable de control cuando cambia currentPage u otras dependencias
+  //   setHasUpdated(false);
+  // }, [currentPage, itemsPerPage]);
 
   //*paginación
   const startIndex = (currentPage - 1) * itemsPerPage;
