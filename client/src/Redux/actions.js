@@ -5,13 +5,12 @@ import {
   DOGBYID,
   ALLTEMPERAMENTS,
   SET_CURRENT_PAGE,
-  ORDER,
-  FILTER_BY_ORIGIN,
-  FILTER_BY_TEMPERAMENT,
   FILTERAPIBD_VALUE,
   FILTERBYTEMPER_VALUE,
   ORDER_VALUE,
   FILTERS,
+  POSTDOG,
+  DATALOADED,
 } from "./actions-types";
 
 import axios from "axios";
@@ -20,7 +19,15 @@ require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
 
-//fns para manejar value de select
+//fn datos iniciales cargados
+export const data_loaded = (value) => {
+  return {
+    type: DATALOADED,
+    payload: value,
+  };
+};
+
+// fns para manejar value de select
 export const selectOrderValue = (value) => {
   return {
     type: ORDER_VALUE,
@@ -45,30 +52,6 @@ export const filterAndOrder = () => {
   return {
     type: FILTERS,
     payload: "",
-  };
-};
-
-//fn filtrar por origen API o BD
-export const filterByOrigin = (origin) => {
-  return {
-    type: FILTER_BY_ORIGIN,
-    payload: origin,
-  };
-};
-
-//fn filtrar por temperamentos
-export const filterByTemperam = (temp) => {
-  return {
-    type: FILTER_BY_TEMPERAMENT,
-    payload: temp,
-  };
-};
-
-//fn ordenamiento
-export const orderCards = (order) => {
-  return {
-    type: ORDER,
-    payload: order,
   };
 };
 
@@ -136,6 +119,22 @@ export const allTemperaments = () => {
       });
     } catch (error) {
       alert(error.message);
+    }
+  };
+};
+
+//fn alta de un perro
+export const postDogs = (dog) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(ENDDOGS, dog);
+      dispatch({
+        type: POSTDOG,
+        payload: data.message,
+      });
+      alert(data.message);
+    } catch (error) {
+      alert("Hubo un error: " + error.message);
     }
   };
 };

@@ -59,7 +59,7 @@ router.get("/", async (req, res) => {
     //*junto los datos de API y BD
     allDogs = [...dogsApi, ...dogsBD];
 
-    //! hasta acca
+    //! compruebo si llegó algo por query
 
     if (name) {
       //GET | /dogs/?name="..."
@@ -148,7 +148,7 @@ router.get("/:idRaza", async (req, res) => {
 router.post("/", async (req, res) => {
   //POST | /dogs
   //temperaments debe llegar como un array de id
-  const { name, height, weight, life_span, temperaments } = req.body;
+  const { name, height, weight, life_span, temperaments, image } = req.body;
 
   //verificar la llegada de datos
   if (name && height && weight && life_span) {
@@ -164,10 +164,11 @@ router.post("/", async (req, res) => {
           height: height,
           weight: weight,
           life_span: life_span,
+          reference_image_id: image,
         });
       } else {
         // Si el perro ya existe, responde con un error
-        return res.status(400).json({ error: "Raza duplicada" });
+        return res.status(200).json({ message: "Raza duplicada" });
       }
 
       if (temperaments) {
@@ -180,11 +181,11 @@ router.post("/", async (req, res) => {
 
       res.status(200).json({ message: "Raza creada exitosamente" });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ message: error.message });
     }
   } else {
     //los datos no llegaron
-    res.status(400).json({ error: "Faltan datos" });
+    res.status(400).json({ message: "Faltan datos" });
   }
 });
 

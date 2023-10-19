@@ -21,9 +21,23 @@ const StyleImage = styled.img`
 `;
 
 const Card = (props) => {
-  const imgRout = props.image ? ENDIMGS + props.image + ".jpg" : imgNotDog;
+  let imgRout;
+  if (props.image) {
+    //viene algo en image, viene de API o de BD?
+    if (props.image.includes("http")) {
+      //Dog de la BD
+      imgRout = props.image;
+    } else {
+      //Dog de la API
+      imgRout = ENDIMGS + props.image + ".jpg";
+    }
+  } else {
+    //no viene nada en image
+    imgRout = imgNotDog;
+  }
 
   if (useLocation().pathname === "/home") {
+    //*mostramos en el home/cards
     return (
       <CardContainer>
         {props.name && <h3>{props.name}</h3>}
@@ -45,6 +59,7 @@ const Card = (props) => {
       </CardContainer>
     );
   } else {
+    //*mostramos en el Detail
     return (
       <CardContainer>
         {props.name && <h3>{props.name}</h3>}

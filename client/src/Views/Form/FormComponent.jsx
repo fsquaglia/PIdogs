@@ -19,8 +19,6 @@ const FormComponent = ({
   selectedTemperaments,
 }) => {
   const tempGlobal = useSelector((state) => state.allTemperaments);
-
-  //   const [selectedTemperaments, setSelectedTemperaments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   // Verifica si tempGlobal está definido y no es null
@@ -34,16 +32,6 @@ const FormComponent = ({
   const filteredTemperaments = temperaments.filter((temperament) =>
     temperament.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  //   const handleTemperamentToggle = (temperament) => {
-  //     if (selectedTemperaments.includes(temperament)) {
-  //       setSelectedTemperaments(
-  //         selectedTemperaments.filter((temp) => temp !== temperament)
-  //       );
-  //     } else {
-  //       setSelectedTemperaments([...selectedTemperaments, temperament]);
-  //     }
-  //   };
 
   return (
     <>

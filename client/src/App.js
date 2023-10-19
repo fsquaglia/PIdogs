@@ -5,8 +5,15 @@ import Details from "./Views/Details/Details";
 import Form from "./Views/Form/Form";
 import NavBar from "./Components/NavBar/NavBar";
 import Home from "./Views/Home/Home";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function App() {
+  const dataLoaded = useSelector((state) => state.dataLoaded);
+  useEffect(() => {
+    !dataLoaded && navigate("/");
+  }, [dataLoaded]);
+
   return (
     <div className="App">
       {useLocation().pathname !== "/" ? <NavBar /> : null}

@@ -1,7 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { allDogs, breedSearch, filterAndOrder } from "../../Redux/actions";
+import {
+  allDogs,
+  breedSearch,
+  filterAndOrder,
+  setCurrentPage,
+} from "../../Redux/actions";
 
 const Searchbar = () => {
   const dispatch = useDispatch();
@@ -12,6 +17,7 @@ const Searchbar = () => {
     event.preventDefault();
     await dispatch(breedSearch(breedName));
     dispatch(filterAndOrder());
+    dispatch(setCurrentPage(1));
   };
 
   const handleClicShowAll = async () => {

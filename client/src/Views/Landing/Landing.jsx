@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import imgDogsBG from "../../Assets/dogs_backgroundLanding.png";
 import { useNavigate } from "react-router-dom";
 import { allDogs, allTemperaments } from "../../Redux/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { data_loaded } from "../../Redux/actions";
 
 const Landing = () => {
+  const dataLoaded = useSelector((state) => state.dataLoaded);
   const containerStyle = {
     backgroundImage: `url(${imgDogsBG})`,
     backgroundSize: "cover",
@@ -29,17 +31,18 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    dispatch(allDogs()); // Cargar datos de perros
-    dispatch(allTemperaments()); // Cargar datos de temperamentos
-    setButtonDisabled(false);
-    // const delay = 1000;
-    // setTimeout(() => {
-    //   // Realizar las llamadas a las acciones de Redux
-    //   dispatch(allDogs()); // Cargar datos de perros
-    //   dispatch(allTemperaments()); // Cargar datos de temperamentos
-    //   setButtonDisabled(false);
-    // }, delay);
-  }, [dispatch]);
+    console.log("hola");
+    if (!dataLoaded) {
+      const delay = 1000;
+      setTimeout(() => {
+        // Realizar las llamadas a las acciones de Redux
+        dispatch(allDogs());
+        dispatch(allTemperaments());
+        setButtonDisabled(false);
+        dispatch(data_loaded(true));
+      }, delay);
+    }
+  }, [dispatch, dataLoaded]);
 
   return (
     <div style={containerStyle}>

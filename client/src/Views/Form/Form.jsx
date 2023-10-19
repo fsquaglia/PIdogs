@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import validations from "../../utils/validations";
 import FormComponent from "./FormComponent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { postDogs } from "../../Redux/actions";
 
 require("dotenv").config();
 const ENDIMGDOGS = process.env.REACT_APP_ENDIMGDOGS;
@@ -22,16 +23,10 @@ const StyledImage = styled.img`
 `;
 
 const Form = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const tempGlobal = useSelector((state) => state.allTemperaments);
-
-  //! Realiza la acción de carga de temps si aún no se han cargado
-  // useEffect(() => {
-  //   if (tempGlobal.length === 0) {
-  //     dispatch(allTemperaments());
-  //   }
-  // }, [dispatch, tempGlobal]);
-
+  const message = useSelector((state) => state.message);
+  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [selectedImage, setSelectedImage] = useState("");
   const [dogData, setDogData] = useState({
     name: "",
@@ -44,7 +39,7 @@ const Form = () => {
     image: "",
     selectedTemperaments: [],
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({ initial: "initial" });
 
   //imágenes de dogs para selección
   const dogImages = [
@@ -63,7 +58,7 @@ const Form = () => {
     setErrors(validations({ ...dogData, image: imageURL }));
   };
 
-  //!-------------------
+  //manejo de los temperamentos en FormComponent
   const handleTemperamentToggle = (temperament) => {
     if (dogData.selectedTemperaments.includes(temperament)) {
       let temper = dogData.selectedTemperaments.filter(
@@ -93,25 +88,58 @@ const Form = () => {
     }
   };
 
-  //controlamos la seleccion de temperamentos en FormComponent
-  // const handleTemperament = (value) => {
-  //   if (value) {
-  //     //hay temperamentos seleccionados
-  //     setDogData({ ...dogData, temperament: true });
-  //     setErrors(validations({ ...dogData, temperament: true }));
-  //   } else {
-  //     setDogData({ ...dogData, temperament: false });
-  //     setErrors(validations({ ...dogData, temperament: false }));
-  //   }
-  // };
+  // Verificar si el objeto de errores está vacío
+  useEffect(() => {
+    const hasErrors = Object.values(errors).some((error) => !!error);
+    setIsSubmitButtonDisabled(hasErrors);
+  }, [errors]);
 
-  //!----------------------
-
-  //lógica de envío del formulario
+  //!lógica de envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(dogData);
+
+    // en tempGlobal [{},{},{}] tengo la tabla de temperamentos
+    // en selectedTemperaments: ["", "", ""], tengo los que selecciona el usuario
+    const idTemperSelected = [];
+    if (tempGlobal) {
+      idTemperSelected.push(
+        ...tempGlobal
+          .filter((temp) => dogData.selectedTemperaments.includes(temp.name))
+          .map((temp) => temp.id)
+      );
+    }
+    const heightString = `${dogData.heightMin} - ${dogData.heightMax}`;
+    const weightString = `${dogData.weightMin} - ${dogData.weightMax}`;
+    const lifeString = `${dogData.lifeMin} - ${dogData.lifeMax} years`;
+    const dogSend = {
+      name: dogData.name,
+      height: weightString,
+      weight: heightString,
+      life_span: lifeString,
+      temperaments: idTemperSelected,
+      image: dogData.image,
+    };
+
+    dispatch(postDogs(dogSend));
   };
+  //limpiar controles sdel form si la carga de dogs fue exitosa
+  useEffect(() => {
+    if (message === "Raza creada exitosamente") {
+      setDogData({
+        name: "",
+        heightMin: "",
+        heightMax: "",
+        weightMin: "",
+        weightMax: "",
+        lifeMin: "",
+        lifeMax: "",
+        image: "",
+        selectedTemperaments: [],
+      });
+      setIsSubmitButtonDisabled(true);
+      setSelectedImage("");
+    }
+  }, [message]);
 
   //logica de cambios en inputs
   const handleChange = (event) => {
@@ -231,7 +259,9 @@ const Form = () => {
           selectedTemperaments={dogData.selectedTemperaments}
         />
         <br />
-        <button type="submit">Agregar</button>
+        <button type="submit" disabled={isSubmitButtonDisabled}>
+          Agregar
+        </button>
       </form>
     </div>
   );

@@ -2,16 +2,14 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   filterAndOrder,
-  filterByOrigin,
   selectOrderValue,
   selectOriginValue,
   selectTemperValue,
+  setCurrentPage,
 } from "../../Redux/actions";
-import { orderCards, filterByTemperam } from "../../Redux/actions";
 import Cards from "../../Components/Cards/Cards";
 
 const Home = () => {
-  // const [aux, setAux] = useState(false);
   const dispatch = useDispatch();
   const orderValue = useSelector((state) => state.orderValue);
   const filterApiBdValue = useSelector((state) => state.filterApiBdValue);
@@ -19,23 +17,20 @@ const Home = () => {
     (state) => state.filterByTemperamValue
   );
 
-  const handleOrder = (e) => {
-    // dispatch(orderCards(e.target.value));
-    dispatch(selectOrderValue(e.target.value));
+  const handleEvent = (e) => {
+    const nameValue = e.target.name;
+    if (nameValue === "order") {
+      dispatch(selectOrderValue(e.target.value));
+    } else if (nameValue === "filterApiBd") {
+      dispatch(selectOriginValue(e.target.value));
+    } else if (nameValue === "filterByTemperam") {
+      dispatch(selectTemperValue(e.target.value));
+    }
     dispatch(filterAndOrder());
-    // aux ? setAux(false) : setAux(true);
-  };
 
-  const handleFilterApiBd = (e) => {
-    // dispatch(filterByOrigin(e.target.value));
-    dispatch(selectOriginValue(e.target.value));
-    dispatch(filterAndOrder());
-  };
-
-  const handleFilterTemperam = (e) => {
-    // dispatch(filterByTemperam(e.target.value));
-    dispatch(selectTemperValue(e.target.value));
-    dispatch(filterAndOrder());
+    if (nameValue !== "order") {
+      dispatch(setCurrentPage(1));
+    }
   };
 
   //traer los temperamentos para mostrar en la lista de filtrado
@@ -53,7 +48,7 @@ const Home = () => {
     <div>
       <h2>Encuentra tu dog friend!</h2>
       <span>Ordenar por raza/peso: </span>
-      <select name="order" id="order" onChange={handleOrder} value={orderValue}>
+      <select name="order" id="order" onChange={handleEvent} value={orderValue}>
         <option value="nameAZ">Raza AZ</option>
         <option value="nameZA">Raza ZA</option>
         <option value="weightAZ">Peso AZ</option>
@@ -64,7 +59,7 @@ const Home = () => {
       <select
         name="filterApiBd"
         id="filterApiBd"
-        onChange={handleFilterApiBd}
+        onChange={handleEvent}
         value={filterApiBdValue}
       >
         <option value="all">Todos</option>
@@ -76,7 +71,7 @@ const Home = () => {
       <select
         name="filterByTemperam"
         id="filterByTemperam"
-        onChange={handleFilterTemperam}
+        onChange={handleEvent}
         value={filterByTemperamValue}
       >
         <option value="all">Todos</option>
