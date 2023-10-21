@@ -11,6 +11,7 @@ import {
   FILTERS,
   POSTDOG,
   DATALOADED,
+  MESSAGEGLOBAL,
 } from "./actions-types";
 
 //definir el initialState
@@ -33,6 +34,8 @@ let initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case MESSAGEGLOBAL:
+      return { ...state, message: action.payload };
     case DATALOADED:
       return { ...state, dataLoaded: action.payload };
     case POSTDOG:

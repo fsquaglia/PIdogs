@@ -11,6 +11,7 @@ import {
   FILTERS,
   POSTDOG,
   DATALOADED,
+  MESSAGEGLOBAL,
 } from "./actions-types";
 
 import axios from "axios";
@@ -18,6 +19,14 @@ import axios from "axios";
 require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
+
+//fn para establacer un mensaje global
+export const message_global = (message) => {
+  return {
+    type: MESSAGEGLOBAL,
+    payload: message,
+  };
+};
 
 //fn datos iniciales cargados
 export const data_loaded = (value) => {
@@ -137,4 +146,14 @@ export const postDogs = (dog) => {
       alert("Hubo un error: " + error.message);
     }
   };
+};
+
+//fn buscar en BD por name
+export const dogbyName = async (name) => {
+  try {
+    const { data } = await axios(`${ENDDOGS}?name=${name}`);
+    return data;
+  } catch (error) {
+    throw error.message;
+  }
 };

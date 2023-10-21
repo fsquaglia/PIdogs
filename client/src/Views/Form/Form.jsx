@@ -1,28 +1,33 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import styled from "styled-components";
 import validations from "../../utils/validations";
 import FormComponent from "./FormComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { postDogs } from "../../Redux/actions";
+import {
+  allDogs,
+  dogbyName,
+  filterAndOrder,
+  message_global,
+  postDogs,
+} from "../../Redux/actions";
+import { useNavigate } from "react-router-dom";
+import {
+  Input,
+  Button,
+  StyledImage,
+  FormGroup,
+  DivCardContainer,
+  ErrorMessage,
+  StyledForm,
+  VerticalDiv,
+  VerticalConteinerDiv,
+} from "../../styles";
 
 require("dotenv").config();
 const ENDIMGDOGS = process.env.REACT_APP_ENDIMGDOGS;
 
-const StyledImage = styled.img`
-  /* Estilos para imágenes no seleccionadas */
-  max-width: 100px;
-  margin: 5px;
-  border: 2px solid transparent;
-  cursor: pointer;
-
-  /* Estilos para imágenes seleccionadas */
-  &.selected {
-    border-color: #007bff; /* Cambia el color del borde para resaltar la imagen seleccionada */
-  }
-`;
-
 const Form = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const tempGlobal = useSelector((state) => state.allTemperaments);
   const message = useSelector((state) => state.message);
@@ -88,13 +93,13 @@ const Form = () => {
     }
   };
 
-  // Verificar si el objeto de errores está vacío
+  // Verificar si hay errores para botón Submit
   useEffect(() => {
     const hasErrors = Object.values(errors).some((error) => !!error);
     setIsSubmitButtonDisabled(hasErrors);
   }, [errors]);
 
-  //!lógica de envío del formulario
+  //lógica de envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -122,9 +127,12 @@ const Form = () => {
 
     dispatch(postDogs(dogSend));
   };
-  //limpiar controles sdel form si la carga de dogs fue exitosa
+
+  //limpiar controles del form si la carga de dogs fue exitosa
   useEffect(() => {
     if (message === "Raza creada exitosamente") {
+      const dogDataname = dogData.name;
+      dispatch(message_global(""));
       setDogData({
         name: "",
         heightMin: "",
@@ -138,6 +146,19 @@ const Form = () => {
       });
       setIsSubmitButtonDisabled(true);
       setSelectedImage("");
+
+      const functionAsync = () => {
+        return dispatch(allDogs()).then(() => dispatch(filterAndOrder()));
+      };
+
+      functionAsync()
+        .then(() => {
+          return dogbyName(dogDataname);
+        })
+        .then((data) => {
+          navigate(`/details/${data[0].id}`);
+        })
+        .catch((error) => alert("Error al obtener el dog: " + error.message));
     }
   }, [message]);
 
@@ -162,108 +183,139 @@ const Form = () => {
   }
 
   return (
-    <div>
+    <VerticalConteinerDiv>
       <h2>Crea tu raza</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          placeholder="Nombre de la raza"
-          value={dogData.name}
-          onChange={handleChange}
-        />
-        <br />
-        <p style={{ color: "#ff9800" }}>{errors.name}</p>
-        <br />
-        <label htmlFor="height">Altura (cms): </label>
-        <input
-          type="number"
-          name="heightMin"
-          id="heightMin"
-          placeholder="min"
-          value={dogData.heightMin}
-          onChange={handleChange}
-          onPaste={handlePaste}
-        />
-        <input
-          type="number"
-          name="heightMax"
-          id="heightMax"
-          placeholder="max"
-          value={dogData.heightMax}
-          onChange={handleChange}
-          onPaste={handlePaste}
-        />
-        <span style={{ color: "#ff9800" }}> {errors.height}</span>
-        <br />
-        <label htmlFor="weight">Peso (kgs): </label>
-        <input
-          type="number"
-          name="weightMin"
-          id="weightMin"
-          placeholder="min"
-          value={dogData.weightMin}
-          onChange={handleChange}
-          onPaste={handlePaste}
-        />
-        <input
-          type="number"
-          name="weightMax"
-          id="weightMax"
-          placeholder="max"
-          value={dogData.weightMax}
-          onChange={handleChange}
-          onPaste={handlePaste}
-        />{" "}
-        <span style={{ color: "#ff9800" }}> {errors.weight}</span>
-        <br />
-        <label htmlFor="life">Años de vida: </label>
-        <input
-          type="number"
-          name="lifeMin"
-          id="lifeMin"
-          placeholder="desde"
-          value={dogData.lifeMin}
-          onChange={handleChange}
-          onPaste={handlePaste}
-          onKeyDown={handleKeyPress}
-        />
-        <input
-          type="number"
-          name="lifeMax"
-          id="lifeMax"
-          placeholder="hasta"
-          value={dogData.lifeMax}
-          onChange={handleChange}
-          onPaste={handlePaste}
-          onKeyDown={handleKeyPress}
-        />
-        <span style={{ color: "#ff9800" }}> {errors.life}</span>
-        <br />
-        <div className="image-gallery">
-          {dogImages.map((imageURL, index) => (
-            <StyledImage
-              key={index}
-              src={imageURL}
-              alt={`Perro ${index + 1}`}
-              className={selectedImage === imageURL ? "selected" : ""}
-              onClick={() => handleImageClick(imageURL)}
+      <StyledForm onSubmit={handleSubmit}>
+        {/*div nombre de raza*/}
+        <VerticalDiv>
+          <Input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Nombre de la raza"
+            value={dogData.name}
+            onChange={handleChange}
+          />
+          <ErrorMessage>{errors.name}</ErrorMessage>
+        </VerticalDiv>
+
+        {/*div height weight life*/}
+        <div
+          style={{
+            display: "inline-block",
+            gridTemplateColumns: "1fr 1fr 1fr 2fr",
+            width: "700px",
+            border: "1px solid #ff9800",
+            padding: "10px",
+            justifyContent: "start",
+            alignContent: "start",
+          }}
+        >
+          <div
+            style={{
+              display: "inline-block",
+              gridTemplateColumns: "1fr 1fr 1fr 2fr",
+            }}
+          >
+            <label htmlFor="height">Altura (cms): </label>
+            <Input
+              type="number"
+              name="heightMin"
+              id="heightMin"
+              placeholder="min"
+              value={dogData.heightMin}
+              onChange={handleChange}
+              onPaste={handlePaste}
             />
-          ))}
+            <Input
+              type="number"
+              name="heightMax"
+              id="heightMax"
+              placeholder="max"
+              value={dogData.heightMax}
+              onChange={handleChange}
+              onPaste={handlePaste}
+            />
+            <span style={{ color: "#ff9800" }}>{errors.height}</span>
+          </div>
+          <div>
+            <label htmlFor="weight">Peso (kgs): </label>
+            <Input
+              type="number"
+              name="weightMin"
+              id="weightMin"
+              placeholder="min"
+              value={dogData.weightMin}
+              onChange={handleChange}
+              onPaste={handlePaste}
+            />
+            <Input
+              type="number"
+              name="weightMax"
+              id="weightMax"
+              placeholder="max"
+              value={dogData.weightMax}
+              onChange={handleChange}
+              onPaste={handlePaste}
+            />
+            <span style={{ color: "#ff9800" }}> {errors.weight}</span>
+          </div>
+          <div>
+            <label htmlFor="life">Años de vida: </label>
+            <Input
+              type="number"
+              name="lifeMin"
+              id="lifeMin"
+              placeholder="desde"
+              value={dogData.lifeMin}
+              onChange={handleChange}
+              onPaste={handlePaste}
+              onKeyDown={handleKeyPress}
+            />
+            <Input
+              type="number"
+              name="lifeMax"
+              id="lifeMax"
+              placeholder="hasta"
+              value={dogData.lifeMax}
+              onChange={handleChange}
+              onPaste={handlePaste}
+              onKeyDown={handleKeyPress}
+            />
+            <span style={{ color: "#ff9800" }}> {errors.life}</span>
+          </div>
         </div>
-        <p style={{ color: "#ff9800" }}> {errors.image}</p>
-        <FormComponent
-          error={errors.selectedTemperaments}
-          handleTemperamentToggle={handleTemperamentToggle}
-          selectedTemperaments={dogData.selectedTemperaments}
-        />
-        <br />
-        <button type="submit" disabled={isSubmitButtonDisabled}>
+
+        {/*div galería de imagenes*/}
+        <VerticalDiv>
+          <div className="image-gallery">
+            {dogImages.map((imageURL, index) => (
+              <StyledImage
+                key={index}
+                src={imageURL}
+                alt={`Perro ${index + 1}`}
+                className={selectedImage === imageURL ? "selected" : ""}
+                onClick={() => handleImageClick(imageURL)}
+              />
+            ))}
+          </div>
+          <p style={{ color: "#ff9800" }}> {errors.image}</p>
+        </VerticalDiv>
+
+        {/*div temperamentos en sub componente*/}
+        <VerticalDiv>
+          <FormComponent
+            error={errors.selectedTemperaments}
+            handleTemperamentToggle={handleTemperamentToggle}
+            selectedTemperaments={dogData.selectedTemperaments}
+          />
+        </VerticalDiv>
+
+        <Button type="submit" disabled={isSubmitButtonDisabled}>
           Agregar
-        </button>
-      </form>
-    </div>
+        </Button>
+      </StyledForm>
+    </VerticalConteinerDiv>
   );
 };
 

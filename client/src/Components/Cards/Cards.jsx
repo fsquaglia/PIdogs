@@ -2,13 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "../Card/Card";
 import { setCurrentPage } from "../../Redux/actions";
-import styled from "styled-components";
-
-const DivCardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  /* Agrega otros estilos según tus preferencias */
-`;
+import { DivCardContainer, CardMargin, PaginationButton } from "../../styles";
 
 const Cards = () => {
   const dispatch = useDispatch();
@@ -60,7 +54,7 @@ const Cards = () => {
       <DivCardContainer>
         {dogsToDisplay.map((dog) => {
           return (
-            <div key={dog.id}>
+            <CardMargin key={dog.id}>
               <Card
                 id={dog.id}
                 name={dog.name}
@@ -71,27 +65,33 @@ const Cards = () => {
                 life_span={dog.life_span}
                 origin={dog.origin}
               />
-            </div>
+            </CardMargin>
           );
         })}
       </DivCardContainer>
-      <div>
-        <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+      <CardMargin>
+        <PaginationButton
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+        >
           {"<"}
-        </button>
+        </PaginationButton>
         {pages.map((page) => (
-          <button
+          <PaginationButton
             key={page}
             onClick={() => handlePageChange(page)}
             disabled={page === currentPage}
           >
             {page}
-          </button>
+          </PaginationButton>
         ))}
-        <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+        <PaginationButton
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages}
+        >
           {">"}
-        </button>
-      </div>
+        </PaginationButton>
+      </CardMargin>
     </div>
   );
 };

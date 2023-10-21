@@ -1,24 +1,10 @@
 import React from "react";
-import styled from "styled-components";
 import imgNotDog from "../../Assets/imgNotDog.png";
 import { Link, useLocation } from "react-router-dom";
+import { CardContainer, StyleImage } from "../../styles";
 
 require("dotenv").config();
 const ENDIMGS = process.env.REACT_APP_ENDIMGS;
-
-const CardContainer = styled.div`
-  width: 300px; /* Establece el ancho deseado para la tarjeta */
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 8px;
-  /* Agrega otros estilos según tus preferencias */
-`;
-
-const StyleImage = styled.img`
-  width: 220px;
-  height: 220px;
-  border-radius: 8px;
-`;
 
 const Card = (props) => {
   let imgRout;

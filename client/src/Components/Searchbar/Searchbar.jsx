@@ -7,6 +7,7 @@ import {
   filterAndOrder,
   setCurrentPage,
 } from "../../Redux/actions";
+import { Button, Input } from "../../styles";
 
 const Searchbar = () => {
   const dispatch = useDispatch();
@@ -33,17 +34,17 @@ const Searchbar = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           type="text"
           name="breedSearch"
           id="breedSearch"
           onChange={handleChange}
           value={breedName}
         />
-        <button type="submit">Buscar</button>
-        <button type="button" onClick={handleClicShowAll}>
+        <Button type="submit">Buscar</Button>
+        <Button type="button" onClick={handleClicShowAll}>
           Todos
-        </button>
+        </Button>
       </form>
     </div>
   );

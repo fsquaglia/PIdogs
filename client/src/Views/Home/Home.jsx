@@ -8,6 +8,7 @@ import {
   setCurrentPage,
 } from "../../Redux/actions";
 import Cards from "../../Components/Cards/Cards";
+import { Select } from "../../styles";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -46,17 +47,16 @@ const Home = () => {
 
   return (
     <div>
-      <h2>Encuentra tu dog friend!</h2>
       <span>Ordenar por raza/peso: </span>
-      <select name="order" id="order" onChange={handleEvent} value={orderValue}>
+      <Select name="order" id="order" onChange={handleEvent} value={orderValue}>
         <option value="nameAZ">Raza AZ</option>
         <option value="nameZA">Raza ZA</option>
         <option value="weightAZ">Peso AZ</option>
         <option value="weightZA">Peso ZA</option>
-      </select>
+      </Select>
       <span> - </span>
       <span>Filtrar por: API/BD </span>
-      <select
+      <Select
         name="filterApiBd"
         id="filterApiBd"
         onChange={handleEvent}
@@ -65,10 +65,10 @@ const Home = () => {
         <option value="all">Todos</option>
         <option value="API">API</option>
         <option value="BD">BD</option>
-      </select>
+      </Select>
       <span> - </span>
       <span>Temperamentos </span>
-      <select
+      <Select
         name="filterByTemperam"
         id="filterByTemperam"
         onChange={handleEvent}
@@ -80,10 +80,8 @@ const Home = () => {
             {temperament}
           </option>
         ))}
-      </select>
+      </Select>
 
-      <br />
-      <br />
       <Cards />
     </div>
   );
