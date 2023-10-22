@@ -15,12 +15,11 @@ import {
   Input,
   Button,
   StyledImage,
-  FormGroup,
-  DivCardContainer,
   ErrorMessage,
   StyledForm,
   VerticalDiv,
   VerticalConteinerDiv,
+  StyledDiv,
 } from "../../styles";
 
 require("dotenv").config();
@@ -200,24 +199,10 @@ const Form = () => {
         </VerticalDiv>
 
         {/*div height weight life*/}
-        <div
-          style={{
-            display: "inline-block",
-            gridTemplateColumns: "1fr 1fr 1fr 2fr",
-            width: "700px",
-            border: "1px solid #ff9800",
-            padding: "10px",
-            justifyContent: "start",
-            alignContent: "start",
-          }}
-        >
-          <div
-            style={{
-              display: "inline-block",
-              gridTemplateColumns: "1fr 1fr 1fr 2fr",
-            }}
-          >
-            <label htmlFor="height">Altura (cms): </label>
+
+        <VerticalDiv>
+          <StyledDiv>
+            <label htmlFor="height">Altura (cms):</label>
             <Input
               type="number"
               name="heightMin"
@@ -237,8 +222,8 @@ const Form = () => {
               onPaste={handlePaste}
             />
             <span style={{ color: "#ff9800" }}>{errors.height}</span>
-          </div>
-          <div>
+          </StyledDiv>
+          <StyledDiv>
             <label htmlFor="weight">Peso (kgs): </label>
             <Input
               type="number"
@@ -259,8 +244,8 @@ const Form = () => {
               onPaste={handlePaste}
             />
             <span style={{ color: "#ff9800" }}> {errors.weight}</span>
-          </div>
-          <div>
+          </StyledDiv>
+          <StyledDiv>
             <label htmlFor="life">Años de vida: </label>
             <Input
               type="number"
@@ -283,8 +268,8 @@ const Form = () => {
               onKeyDown={handleKeyPress}
             />
             <span style={{ color: "#ff9800" }}> {errors.life}</span>
-          </div>
-        </div>
+          </StyledDiv>
+        </VerticalDiv>
 
         {/*div galería de imagenes*/}
         <VerticalDiv>
@@ -310,10 +295,11 @@ const Form = () => {
             selectedTemperaments={dogData.selectedTemperaments}
           />
         </VerticalDiv>
-
-        <Button type="submit" disabled={isSubmitButtonDisabled}>
-          Agregar
-        </Button>
+        <VerticalConteinerDiv>
+          <Button type="submit" disabled={isSubmitButtonDisabled}>
+            Agregar
+          </Button>
+        </VerticalConteinerDiv>
       </StyledForm>
     </VerticalConteinerDiv>
   );

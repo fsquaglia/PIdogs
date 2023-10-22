@@ -1,7 +1,14 @@
 import React from "react";
 import imgNotDog from "../../Assets/imgNotDog.png";
 import { Link, useLocation } from "react-router-dom";
-import { CardContainer, StyleImage } from "../../styles";
+import {
+  CardContainer,
+  StyleImage,
+  StyleImageDet,
+  CenteredDiv,
+  DIVbordeDerecho,
+  DivTextDetailDog,
+} from "../../styles";
 
 require("dotenv").config();
 const ENDIMGS = process.env.REACT_APP_ENDIMGS;
@@ -47,25 +54,28 @@ const Card = (props) => {
   } else {
     //*mostramos en el Detail
     return (
-      <CardContainer>
-        {props.name && <h3>{props.name}</h3>}
-
-        {props.image ? (
-          <StyleImage
-            src={imgRout}
-            alt="Dogs"
-            onError={(e) => {
-              e.target.src = imgNotDog;
-            }}
-          />
-        ) : (
-          <StyleImage src={imgNotDog} alt="Dogs" />
-        )}
-        {props.temperament && <p>Temperamentos: {props.temperament}</p>}
-        {props.weight && <p>Peso: {props.weight}</p>}
-        {props.height && <p>Altura: {props.height}</p>}
-        {props.life_span && <p>Años de vida: {props.life_span}</p>}
-      </CardContainer>
+      <CenteredDiv>
+        <DIVbordeDerecho>
+          {props.image ? (
+            <StyleImageDet
+              src={imgRout}
+              alt="Dogs"
+              onError={(e) => {
+                e.target.src = imgNotDog;
+              }}
+            />
+          ) : (
+            <StyleImageDet src={imgNotDog} alt="Dogs" />
+          )}
+        </DIVbordeDerecho>
+        <DivTextDetailDog>
+          {props.name && <h3>{props.name}</h3>}
+          {props.temperament && <p>Temperamentos: {props.temperament}</p>}
+          {props.weight && <p>Peso: {props.weight}</p>}
+          {props.height && <p>Altura: {props.height}</p>}
+          {props.life_span && <p>Años de vida: {props.life_span}</p>}
+        </DivTextDetailDog>
+      </CenteredDiv>
     );
   }
 };

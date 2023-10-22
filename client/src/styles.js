@@ -75,6 +75,8 @@ export const DivCardContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
+
+//DIV congenedor de las card home
 export const CardContainer = styled.div`
   width: 300px;
   height: 400px;
@@ -88,9 +90,29 @@ export const CardContainer = styled.div`
   }
 `;
 
+//DIV contenedor de la card detail
+export const CardContainerDetail = styled.div`
+  width: 400px;
+  height: 400px;
+  border: 1.2px solid #ff9800;
+  padding: 10px;
+  border-radius: 12px;
+  transition: background-color 0.5s, color 0.5s;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const StyleImage = styled.img`
   width: 220px;
   height: 220px;
+  border-radius: 8px;
+`;
+
+//img del detail
+export const StyleImageDet = styled.img`
+  width: 350px;
+  height: 350px;
   border-radius: 8px;
 `;
 
@@ -136,8 +158,13 @@ export const FormGroup = styled.div`
   gap: 5px;
 `;
 
-//!estilo de los p de errores
+//!estilo de los span de errores
 export const ErrorMessage = styled.span`
+  color: #ff9800;
+  font-size: 16px;
+`;
+//!estilo de los span de errores
+export const ErrorMessageLeft = styled.span`
   color: #ff9800;
   font-size: 16px;
 `;
@@ -162,7 +189,40 @@ export const VerticalDiv = styled.div`
 
 export const VerticalConteinerDiv = styled.div`
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   flex-direction: column;
+`;
+
+export const StyledDiv = styled.div`
+  display: grid;
+  grid-template-columns: 20% 20% 20% 40%;
+  gap: 10px;
+  text-align: left;
+  width: 700px;
+  align-items: center;
+`;
+
+export const ContainerDivSubForm = styled.div`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 700px;
+`;
+
+export const CenteredDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const DIVbordeDerecho = styled.div`
+  border-right: 4px solid #ff9800;
+  padding: 25px;
+`;
+
+export const DivTextDetailDog = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 25px;
 `;

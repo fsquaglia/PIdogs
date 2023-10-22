@@ -43,7 +43,6 @@ const Cards = () => {
     return (
       <div>
         <p>ups! nada por aquí?</p>
-
         <p>Replantea tu búsqueda y quita algunos filtros.</p>
       </div>
     );
