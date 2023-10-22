@@ -8,47 +8,42 @@ const Details = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const dogDetail = useSelector((state) => state.dogDetail);
-  const [showCard, setShowCard] = useState(false); // Controla la visibilidad de la Card
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setShowCard(false);
-    dispatch(dogById(id));
+    dispatch(dogById(id))
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        alert("Ups! tuvimos un error al mostrar el dog: " + error.message);
+        setLoading(false);
+      });
   }, [id]);
 
-  useEffect(() => {
-    if (dogDetail) {
-      setShowCard(true);
-    }
-  }, [dogDetail]);
-
-  if (!dogDetail) {
+  if (loading) {
     return (
       <div>
         <h2>Loading....</h2>
       </div>
     );
-  }
-
-  const { name, temperament, weight, reference_image_id, height, life_span } =
-    dogDetail;
-
-  return (
-    <div>
-      <h2>Más detalles de: {name}</h2>
-      {showCard && (
+  } else {
+    return (
+      <div>
+        <h2>Más detalles de: {dogDetail.name}</h2>
         <Card
           key={dogDetail.id}
           id={dogDetail.id}
-          name={name}
-          temperament={temperament}
-          weight={weight}
-          image={reference_image_id}
-          height={height}
-          life_span={life_span}
+          name={dogDetail.name}
+          temperament={dogDetail.temperament}
+          weight={dogDetail.weight}
+          image={dogDetail.reference_image_id}
+          height={dogDetail.height}
+          life_span={dogDetail.life_span}
         />
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 export default Details;
