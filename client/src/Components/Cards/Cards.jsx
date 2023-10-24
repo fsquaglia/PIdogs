@@ -2,7 +2,12 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "../Card/Card";
 import { setCurrentPage } from "../../Redux/actions";
-import { DivCardContainer, CardMargin, PaginationButton } from "../../styles";
+import {
+  DivCardContainer,
+  CardMargin,
+  PaginationButton,
+  ErrorMessage,
+} from "../../styles";
 
 const Cards = () => {
   const dispatch = useDispatch();
@@ -42,8 +47,12 @@ const Cards = () => {
   if (dogs.length === 0) {
     return (
       <div>
-        <p>ups! nada por aquí?</p>
-        <p>Replantea tu búsqueda y quita algunos filtros.</p>
+        <br />
+        <ErrorMessage>ups! nada por aquí?</ErrorMessage>
+        <br />
+        <ErrorMessage>
+          Replantea tu búsqueda y quita algunos filtros.
+        </ErrorMessage>
       </div>
     );
   }

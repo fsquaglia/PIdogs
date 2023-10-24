@@ -8,7 +8,7 @@ import {
   setCurrentPage,
 } from "../../Redux/actions";
 import Cards from "../../Components/Cards/Cards";
-import { Select } from "../../styles";
+import { Select, StyledBlackSpan } from "../../styles";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const Home = () => {
     (state) => state.filterByTemperamValue
   );
 
+  //handler de ordenamiento y filtros
   const handleEvent = (e) => {
     const nameValue = e.target.name;
     if (nameValue === "order") {
@@ -28,7 +29,9 @@ const Home = () => {
       dispatch(selectTemperValue(e.target.value));
     }
     dispatch(filterAndOrder());
-
+    //si se filtra, vuelvo a page 1 para que el estado
+    //no quede seteado en otra pág que puede no estar
+    //disponible
     if (nameValue !== "order") {
       dispatch(setCurrentPage(1));
     }
@@ -47,15 +50,15 @@ const Home = () => {
 
   return (
     <div>
-      <span>Ordenar por raza/peso: </span>
+      <StyledBlackSpan>Ordenar por raza/peso: </StyledBlackSpan>
       <Select name="order" id="order" onChange={handleEvent} value={orderValue}>
         <option value="nameAZ">Raza AZ</option>
         <option value="nameZA">Raza ZA</option>
         <option value="weightAZ">Peso AZ</option>
         <option value="weightZA">Peso ZA</option>
       </Select>
-      <span> - </span>
-      <span>Filtrar por: API/BD </span>
+      <StyledBlackSpan> - </StyledBlackSpan>
+      <StyledBlackSpan>Filtrar por: API/BD </StyledBlackSpan>
       <Select
         name="filterApiBd"
         id="filterApiBd"
@@ -66,8 +69,8 @@ const Home = () => {
         <option value="API">API</option>
         <option value="BD">BD</option>
       </Select>
-      <span> - </span>
-      <span>Temperamentos </span>
+      <StyledBlackSpan> - </StyledBlackSpan>
+      <StyledBlackSpan>Temperamentos </StyledBlackSpan>
       <Select
         name="filterByTemperam"
         id="filterByTemperam"

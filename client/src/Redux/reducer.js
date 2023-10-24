@@ -124,7 +124,7 @@ function rootReducer(state = initialState, action) {
         breedDogs: dogsOrder,
       };
 
-    case SET_CURRENT_PAGE:
+    case SET_CURRENT_PAGE: //paginacion
       return {
         ...state,
         currentPage: action.payload,

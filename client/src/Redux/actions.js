@@ -81,7 +81,7 @@ export const breedSearch = (breed) => {
         payload: data,
       });
     } catch (error) {
-      alert(error.message);
+      alert("Error al obtener dobs por raza: " + error.message);
     }
   };
 };
@@ -96,7 +96,7 @@ export const allDogs = () => {
         payload: data,
       });
     } catch (error) {
-      alert(error.message);
+      alert("Error al obtener todos los dogs: " + error.message);
     }
   };
 };
@@ -112,11 +112,12 @@ export const dogById = (id) => {
         payload: data,
       });
     } catch (error) {
-      alert(error.message);
+      alert("Error al obtener el dog por id: " + error.message);
     }
   };
 };
 
+//fn para obtener todos los temperamentos de la API
 export const allTemperaments = () => {
   return async (dispatch) => {
     try {
@@ -127,12 +128,12 @@ export const allTemperaments = () => {
         payload: data,
       });
     } catch (error) {
-      alert(error.message);
+      alert("Error al obtener los temperaments: " + error.message);
     }
   };
 };
 
-//fn alta de un perro
+//fn alta de un dog por Formulario
 export const postDogs = (dog) => {
   return async (dispatch) => {
     try {
@@ -143,7 +144,7 @@ export const postDogs = (dog) => {
       });
       alert(data.message);
     } catch (error) {
-      alert("Hubo un error: " + error.message);
+      alert("Hubo un error al dar de alta: " + error.message);
     }
   };
 };

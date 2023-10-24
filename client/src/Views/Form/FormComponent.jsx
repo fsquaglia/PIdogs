@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 
-import { ContainerDivSubForm, Input } from "../../styles";
-
-const StyledFormContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const StyledTemperamentList = styled.div`
-  max-height: 200px;
-  overflow-y: auto;
-  width: 300px;
-  display: grid;
-  grid-template-columns: 50% 50%;
-`;
+import {
+  ContainerDivSubForm,
+  ErrorMessage,
+  StyledFormContainer,
+  StyledTemperamentList,
+  StyledBlackSpan,
+  InputBig,
+} from "../../styles";
 
 const FormComponent = ({
   error,
@@ -26,6 +19,7 @@ const FormComponent = ({
   const [searchTerm, setSearchTerm] = useState("");
 
   // Verifica si tempGlobal está definido y no es null
+  // extrae name de los temperaments
   const temperaments = [];
   if (tempGlobal) {
     tempGlobal.forEach((temp) => {
@@ -33,6 +27,7 @@ const FormComponent = ({
     });
   }
 
+  //devuelve la lista de temperamentos filtrados según contenido del input de filtros. Mientras no haya texto devuelve todos los temperamentos
   const filteredTemperaments = temperaments.filter((temperament) =>
     temperament.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -42,11 +37,11 @@ const FormComponent = ({
       <StyledFormContainer>
         <div>
           <ContainerDivSubForm>
-            <p>Selecciona temperamentos</p>
-            <p>Temperamentos seleccionados</p>
+            <StyledBlackSpan>Selecciona temperamentos</StyledBlackSpan>
+            <StyledBlackSpan>Temperamentos seleccionados</StyledBlackSpan>
           </ContainerDivSubForm>
           <div>
-            <Input
+            <InputBig
               type="text"
               placeholder="Buscar temperamento"
               value={searchTerm}
@@ -77,7 +72,7 @@ const FormComponent = ({
           </ContainerDivSubForm>
         </div>
       </StyledFormContainer>
-      <p style={{ color: "#ff9800" }}> {error}</p>
+      <ErrorMessage> {error}</ErrorMessage>
     </>
   );
 };

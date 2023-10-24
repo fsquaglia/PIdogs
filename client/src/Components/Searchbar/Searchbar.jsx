@@ -7,13 +7,14 @@ import {
   filterAndOrder,
   setCurrentPage,
 } from "../../Redux/actions";
-import { Button, Input } from "../../styles";
+import { Button, InputBig } from "../../styles";
 
 const Searchbar = () => {
   const dispatch = useDispatch();
 
   const [breedName, setBreedname] = useState("");
 
+  //aplicar el filtro por raza o name
   const handleSubmit = async (event) => {
     event.preventDefault();
     await dispatch(breedSearch(breedName));
@@ -21,6 +22,7 @@ const Searchbar = () => {
     dispatch(setCurrentPage(1));
   };
 
+  //mostrar todos los dogs, es decir quitamos el filtro por raza o name
   const handleClicShowAll = async () => {
     await dispatch(allDogs());
     dispatch(filterAndOrder());
@@ -34,12 +36,13 @@ const Searchbar = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Input
+        <InputBig
           type="text"
           name="breedSearch"
           id="breedSearch"
           onChange={handleChange}
           value={breedName}
+          placeholder="Busca una raza"
         />
         <Button type="submit">Buscar</Button>
         <Button type="button" onClick={handleClicShowAll}>

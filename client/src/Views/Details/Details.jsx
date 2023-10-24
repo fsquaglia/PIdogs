@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { dogById } from "../../Redux/actions";
 import Card from "../../Components/Card/Card";
+import { StyledH2 } from "../../styles";
 
 const Details = () => {
   const { id } = useParams();
@@ -24,13 +25,13 @@ const Details = () => {
   if (loading) {
     return (
       <div>
-        <h2>Loading....</h2>
+        <StyledH2>Loading....</StyledH2>
       </div>
     );
   } else {
     return (
       <div>
-        <h2>Más detalles de: {dogDetail.name}</h2>
+        <StyledH2>Más detalles de: {dogDetail.name}</StyledH2>
         <Card
           key={dogDetail.id}
           id={dogDetail.id}

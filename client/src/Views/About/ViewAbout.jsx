@@ -1,24 +1,16 @@
 import React from "react";
 import imgFer01 from "../../Assets/fer00.png";
-import styled from "styled-components";
-
-const StyledAbout = styled.h1`
-  color: #000000;
-  font-family: "Calibri", sans-serif;
-`;
-const StyledP = styled.p`
-  color: #000000;
-  font-family: "Calibri", sans-serif;
-`;
+import { StyledH1, StyledH2, StyledP } from "../../styles";
 
 function ViewAbout() {
   return (
     <div>
-      <StyledAbout>Fernando Squaglia</StyledAbout>
+      <StyledH1>Fernando Squaglia</StyledH1>
       <StyledP>Creador de esta App</StyledP>
-      <p>
-        <img src={imgFer01} alt="Imagen Fer" />
-      </p>
+
+      <img src={imgFer01} alt="Imagen Fer" />
+
+      <StyledH2>Full Stack Developer || React || Redux || Node || SQL</StyledH2>
     </div>
   );
 }

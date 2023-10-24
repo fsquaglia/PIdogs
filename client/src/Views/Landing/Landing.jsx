@@ -21,6 +21,7 @@ const Landing = () => {
       const delay = 1000;
       setTimeout(() => {
         // Realizar las llamadas a las acciones de Redux
+        //cargando los estados globales
         dispatch(allDogs());
         dispatch(allTemperaments());
         setButtonDisabled(false);
@@ -32,7 +33,7 @@ const Landing = () => {
   return (
     <ContainerDiv>
       <ContentDiv>
-        <TextP>Siguen siendo el mejor amigo</TextP>
+        <TextP>Siguen siendo nuestro mejor amigo</TextP>
         <Button onClick={onClick} disabled={buttonDisabled}>
           Ingresar
         </Button>

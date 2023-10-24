@@ -8,6 +8,8 @@ import {
   CenteredDiv,
   DIVbordeDerecho,
   DivTextDetailDog,
+  StyledH3,
+  StyledP,
 } from "../../styles";
 
 require("dotenv").config();
@@ -33,7 +35,7 @@ const Card = (props) => {
     //*mostramos en el home/cards
     return (
       <CardContainer>
-        {props.name && <h3>{props.name}</h3>}
+        {props.name && <StyledH3>{props.name}</StyledH3>}
         <Link to={`/details/${props.id}`}>
           {props.image ? (
             <StyleImage
@@ -69,11 +71,15 @@ const Card = (props) => {
           )}
         </DIVbordeDerecho>
         <DivTextDetailDog>
-          {props.name && <h3>{props.name}</h3>}
-          {props.temperament && <p>Temperamentos: {props.temperament}</p>}
-          {props.weight && <p>Peso: {props.weight}</p>}
-          {props.height && <p>Altura: {props.height}</p>}
-          {props.life_span && <p>Años de vida: {props.life_span}</p>}
+          {props.name && <StyledH3>{props.name}</StyledH3>}
+          {props.temperament && (
+            <StyledP>Temperamentos: {props.temperament}</StyledP>
+          )}
+          {props.weight && <StyledP>Peso: {props.weight}</StyledP>}
+          {props.height && <StyledP>Altura: {props.height}</StyledP>}
+          {props.life_span && (
+            <StyledP>Años de vida: {props.life_span}</StyledP>
+          )}
         </DivTextDetailDog>
       </CenteredDiv>
     );
