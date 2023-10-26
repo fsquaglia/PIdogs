@@ -1,5 +1,14 @@
 import styled, { keyframes } from "styled-components";
 import imgDogsBG from "./Assets/dogs_backgroundLanding.png";
+
+//constantes
+const textBlackColor = "#111111";
+const principalColor = "#ff9800";
+//principal"#ff9800" - verde #4DCF5B - azul #2596be
+
+const fontCalibri = "Calibri, sans-serif";
+
+//! animacion
 const slideInAnimation = keyframes`
   0% {
     transform: translateX(-100%);
@@ -10,38 +19,31 @@ const slideInAnimation = keyframes`
     opacity: 1;
   }
 `;
-//!utilizado para los button con hover
+
+//! Utilizado para los button con hover
 export const Button = styled.button`
   width: 7em;
   margin: 0.5em;
   height: 2em;
   background-color: #ffffff;
-  border: 1.2px solid #ff9800;
+  border: 1.2px solid ${principalColor};
   border-radius: 5px;
   transition: background-color 0.5s, color 0.5s;
-  font-family: "Calibri", sans-serif;
+  font-family: ${fontCalibri};
   font-size: 16px;
   &:hover {
-    background-color: #ff9800;
+    background-color: ${principalColor};
     color: white;
   }
 `;
 
-// export const NavContainer = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 10px;
-//   background-color: #ffffff;
-// `;
-
-//! en uso Navbar
+//! En uso Navbar
 export const TitleContainer = styled.div`
   align-items: center;
   /* color: #ffffff; */
 `;
 
-//!en uso en Landing
+//! En uso en Landing
 export const ContainerDiv = styled.div`
   background-image: url(${imgDogsBG});
   background-size: cover;
@@ -49,122 +51,109 @@ export const ContainerDiv = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
-  color: black;
+  color: ${textBlackColor};
 `;
 
-//!en uso en Landing
+//! En uso en Landing
 export const ContentDiv = styled.div`
   margin-left: 90px;
 `;
 
-//!en uso en Landing
+//! En uso en Landing
 export const TextP = styled.p`
-  font-family: "Calibri", sans-serif;
+  font-family: ${fontCalibri};
   font-size: 24px;
-  color: black;
+  color: ${textBlackColor};
   animation: ${slideInAnimation} 1s;
 `;
 
-//! en uso para todos los input
+//! En uso para todos los input
 export const Input = styled.input`
   width: 9em;
   margin: 0.5em;
   height: 2em;
   background-color: #ffffff;
-  border: 1px solid #ff9800;
+  border: 1px solid ${principalColor};
   border-radius: 5px;
 `;
 
-//! en uso para Input de mayor tamaño
+//! En uso para Input de mayor tamaño
 export const InputBig = styled.input`
   width: 12em;
   margin: 0.5em;
   height: 2em;
   background-color: #ffffff;
-  border: 1px solid #ff9800;
+  border: 1px solid ${principalColor};
   border-radius: 5px;
   text-align: center;
 `;
 
-//!en uso Select filtro y orden Home
+//! En uso Select filtro y orden Home
 export const Select = styled.select`
   width: 9em;
   margin: 0.5em;
   height: 2em;
   background-color: #ffffff;
-  border: 1px solid #ff9800;
+  border: 1px solid ${principalColor};
   border-radius: 5px;
 `;
 
-//!en uso para Cards
+//! En uso para Cards
 export const DivCardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 `;
 
-//!DIV contenedor de la Card
+//! DIV contenedor de la Card
 export const CardContainer = styled.div`
   width: 300px;
   height: 400px;
-  border: 1.2px solid #ff9800;
+  border: 1.2px solid ${principalColor};
   padding: 10px;
   border-radius: 8px;
   transition: background-color 0.5s, color 0.5s;
   &:hover {
-    background-color: #ff9800;
+    background-color: ${principalColor};
     color: white;
   }
 `;
 
-//DIV contenedor de la card detail
-// export const CardContainerDetail = styled.div`
-//   width: 400px;
-//   height: 400px;
-//   border: 1.2px solid #ff9800;
-//   padding: 10px;
-//   border-radius: 12px;
-//   transition: background-color 0.5s, color 0.5s;
-//   display: grid;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-//!Imagen del dog en Card
+//! Imagen del dog en Card
 export const StyleImage = styled.img`
   width: 220px;
   height: 220px;
   border-radius: 8px;
 `;
 
-//!img del dog en detail
+//! Img del dog en detail
 export const StyleImageDet = styled.img`
   width: 350px;
   height: 350px;
   border-radius: 8px;
 `;
 
-//!en uso en Cards, margen entre tarjetas
+//! En uso en Cards, margen entre tarjetas
 export const CardMargin = styled.div`
   margin: 10px;
 `;
 
-//!botones de paginacion en Cards
+//! Botones de paginacion en Cards
 export const PaginationButton = styled.button`
-  font-family: "Calibri", sans-serif;
+  font-family: ${fontCalibri};
   font-size: 16px;
-  color: #111111;
+  color: ${textBlackColor};
   background: transparent;
   border: none;
   cursor: pointer;
   transition: background-color 0.5s, color 0.5s;
   &:hover {
-    background-color: #ff9800;
+    background-color: ${principalColor};
     color: white;
   }
 `;
 
-//! en uso para estilos de imágenes no seleccionadas
+//! En uso para estilos de imágenes no seleccionadas
 export const StyledImage = styled.img`
   border-radius: 5px;
   max-width: 100px;
@@ -173,7 +162,7 @@ export const StyledImage = styled.img`
   cursor: pointer;
   transition: background-color 0.5s, color 0.5s;
   &:hover {
-    background-color: #ff9800;
+    background-color: ${principalColor};
     color: white;
   }
   /* Estilos para imágenes seleccionadas */
@@ -182,60 +171,47 @@ export const StyledImage = styled.img`
   }
 `;
 
-//estilo del div que contiene altura peso y anos de vida
-// export const FormGroup = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   gap: 5px;
-// `;
-
-//!estilo de los span de errores
+//! Estilo de los span de errores
 export const ErrorMessage = styled.span`
-  color: #ff9800;
+  color: ${principalColor};
   font-size: 16px;
-  font-family: "Calibri", sans-serif;
+  font-family: ${fontCalibri};
 `;
 
-//estilo de los span de errores
-// export const ErrorMessageLeft = styled.span`
-//   color: #ff9800;
-//   font-size: 16px;
-// `;
-
-//!estilo de span para los Select de filtro y orden
+//! Estilo de span para los Select de filtro y orden
 export const StyledBlackSpan = styled.span`
   font-size: 16px;
-  color: #111111;
-  font-family: "Calibri", sans-serif;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
 `;
 
-//!estilo del form en componente Form
+//! Estilo del form en componente Form
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-//!en uso para Form
+//! En uso para Form
 export const VerticalDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
   width: 700px;
-  border: 1px solid #ff9800;
+  border: 1px solid ${principalColor};
   border-radius: 5px;
   padding: 10px;
 `;
 
-//!en uso para form
+//! En uso para form
 export const VerticalConteinerDiv = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
 `;
 
-//!en uso para Form
+//! En uso para Form
 export const StyledDiv = styled.div`
   display: grid;
   grid-template-columns: 20% 20% 20% 40%;
@@ -245,93 +221,125 @@ export const StyledDiv = styled.div`
   align-items: center;
 `;
 
-//! en uso para SubForm
+//! En uso para SubForm
 export const ContainerDivSubForm = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
   width: 700px;
 `;
 
-//!Div centrado uso en Card
+//! Div centrado en uso en Card
 export const CenteredDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
   align-items: center;
+  justify-content: center;
+  width: 850px;
+  max-width: 100%;
 `;
 
-//!Div con borde derecho para el Detail
+//! Div con borde derecho para el Detail
 export const DIVbordeDerecho = styled.div`
-  border-right: 4px solid #ff9800;
+  border-right: 4px solid ${principalColor};
   padding: 25px;
 `;
 
-//!DIV de texto del dog en Detail
+//! DIV de texto del dog en Detail
 export const DivTextDetailDog = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   padding: 25px;
 `;
 
-//!usado en ViewAbout
+//! Usado en ViewAbout
 export const StyledH1 = styled.h1`
-  color: #111111;
-  font-family: "Calibri", sans-serif;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
 `;
-//!usado en ViewAbout, Detail
+
+//! Usado en ViewAbout, Detail
 export const StyledH2 = styled.h2`
-  color: #111111;
-  font-family: "Calibri", sans-serif;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
 `;
 
-//!usado en Card
+//! Usado en Card
 export const StyledH3 = styled.h3`
-  color: #111111;
-  font-family: "Calibri", sans-serif;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
 `;
 
-//!usado en ViewAbout, SubForm, Card
+//! Usado en ViewAbout, SubForm, Card
 export const StyledP = styled.p`
-  color: #111111;
-  font-family: "Calibri", sans-serif;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
   font-size: 16px;
 `;
 
-//! en uso para SubForm
+//! En uso para SubForm
 export const StyledFormContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-//! en uso para SubForm
+//! En uso para SubForm
 export const StyledTemperamentList = styled.div`
   max-height: 200px;
   overflow-y: auto;
   width: 300px;
   display: grid;
   grid-template-columns: 50% 50%;
-  color: #111111;
-  font-family: "Calibri", sans-serif;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
 `;
 
-//!usado en Form
+//! Usado en Form
 export const StyledLabel = styled.label`
-  color: #111111;
-  font-family: "Calibri", sans-serif;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
   font-size: 16px;
 `;
 
-//!en uso Navbar, divide en 3 columnas el contenido
+//! En uso Navbar, divide en 3 columnas el contenido
 export const ConteinerNavDiv = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
 `;
 
-//!en uso Navbar, centra el contenido
+//! En uso Navbar, centra el contenido
 export const ContentNavDiv = styled.div`
   margin: 0 auto;
+  display: flex;
   text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+`;
+
+//! en uso para el button de Like
+// export const SpanLike = styled.span`
+//   margin: 10px;
+//   height: 40px;
+//   width: auto;
+//   cursor: pointer;
+//   transition: transform 0.6s;
+//   &:hover {
+//     transform: scale(1.4);
+//   }
+// `;
+
+//! Usado en Navbar
+export const StyledLikeP = styled.p`
+  margin: 0px 10px;
+  height: 40px;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.6s;
+  &:hover {
+    transform: scale(1.4);
+  }
 `;

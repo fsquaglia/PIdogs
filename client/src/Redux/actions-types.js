@@ -10,3 +10,4 @@ export const FILTERS = "filters";
 export const POSTDOG = "post_dog";
 export const DATALOADED = "data_loaded";
 export const MESSAGEGLOBAL = "messageGlobal";
+export const LIKES_COUNT_SUCCESS = "likesCount";

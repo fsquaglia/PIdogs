@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { allDogs, allTemperaments } from "../../Redux/actions";
+import { allDogs, allTemperaments, filterAndOrder } from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { data_loaded } from "../../Redux/actions";
 import { Button, ContainerDiv, ContentDiv, TextP } from "../../styles";
@@ -22,7 +22,7 @@ const Landing = () => {
       setTimeout(() => {
         // Realizar las llamadas a las acciones de Redux
         //cargando los estados globales
-        dispatch(allDogs());
+        dispatch(allDogs()).then(() => dispatch(filterAndOrder()));
         dispatch(allTemperaments());
         setButtonDisabled(false);
         dispatch(data_loaded(true));

@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { dogById } from "../../Redux/actions";
 import Card from "../../Components/Card/Card";
-import { StyledH2 } from "../../styles";
+import { StyledH2, VerticalConteinerDiv } from "../../styles";
 
 const Details = () => {
   const { id } = useParams();
@@ -30,7 +30,7 @@ const Details = () => {
     );
   } else {
     return (
-      <div>
+      <VerticalConteinerDiv>
         <StyledH2>Más detalles de: {dogDetail.name}</StyledH2>
         <Card
           key={dogDetail.id}
@@ -42,7 +42,7 @@ const Details = () => {
           height={dogDetail.height}
           life_span={dogDetail.life_span}
         />
-      </div>
+      </VerticalConteinerDiv>
     );
   }
 };

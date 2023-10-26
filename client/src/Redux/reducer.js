@@ -12,6 +12,7 @@ import {
   POSTDOG,
   DATALOADED,
   MESSAGEGLOBAL,
+  LIKES_COUNT_SUCCESS,
 } from "./actions-types";
 
 //definir el initialState
@@ -28,12 +29,15 @@ let initialState = {
   filterByTemperamValue: "all",
   message: "",
   dataLoaded: false,
+  likesCount: 0,
 };
 
 //definir la función rootReducer
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case LIKES_COUNT_SUCCESS: //aumentar y devolver las like del site
+      return { ...state, likesCount: action.payload };
     case MESSAGEGLOBAL:
       return { ...state, message: action.payload };
     case DATALOADED:

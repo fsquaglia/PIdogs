@@ -12,6 +12,7 @@ import {
   POSTDOG,
   DATALOADED,
   MESSAGEGLOBAL,
+  LIKES_COUNT_SUCCESS,
 } from "./actions-types";
 
 import axios from "axios";
@@ -19,6 +20,7 @@ import axios from "axios";
 require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
+const ENDLIKES = process.env.REACT_APP_ENDLIKES;
 
 //fn para establacer un mensaje global
 export const message_global = (message) => {
@@ -157,4 +159,17 @@ export const dogbyName = async (name) => {
   } catch (error) {
     throw error.message;
   }
+};
+
+//fn obtener cantidad de likes
+export const likesConut = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios("http://localhost:3001/likes");
+
+      dispatch({ type: LIKES_COUNT_SUCCESS, payload: data.message });
+    } catch (error) {
+      alert("Hubo un error al obtener los likes: " + error.message);
+    }
+  };
 };

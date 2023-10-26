@@ -107,6 +107,7 @@ const Form = () => {
 
     // en tempGlobal [{},{},{}] tengo la tabla de temperamentos
     // en selectedTemperaments: ["", "", ""], tengo los que selecciona el usuario
+    //de acuerdo a los temperam seleccionados, debo buscar sus id en la BD
     const idTemperSelected = [];
     if (tempGlobal) {
       idTemperSelected.push(
@@ -115,8 +116,14 @@ const Form = () => {
           .map((temp) => temp.id)
       );
     }
-    const heightString = `${dogData.heightMin} - ${dogData.heightMax}`;
-    const weightString = `${dogData.weightMin} - ${dogData.weightMax}`;
+    //las equivalencias de las alturas de cm a pulgadas
+    const heightMinImperial = Math.floor(dogData.heightMin / 2.54);
+    const heightMaxImperial = Math.floor(dogData.heightMax / 2.54);
+    const heightString = `${dogData.heightMin} - ${dogData.heightMax} cm | ${heightMinImperial} - ${heightMaxImperial} in`;
+    //las equivalencias del peso de kg a libras
+    const weightMinImperial = Math.floor(dogData.weightMin * 2.205);
+    const weightMaxImperial = Math.floor(dogData.weightMax * 2.205);
+    const weightString = `${dogData.weightMin} - ${dogData.weightMax} kg | ${weightMinImperial} - ${weightMaxImperial} lbs`;
     const lifeString = `${dogData.lifeMin} - ${dogData.lifeMax} years`;
     const dogSend = {
       name: dogData.name,

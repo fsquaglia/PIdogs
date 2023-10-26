@@ -16,6 +16,14 @@ require("dotenv").config();
 const ENDIMGS = process.env.REACT_APP_ENDIMGS;
 
 const Card = (props) => {
+  //truncamos el texto de temperaments si es demasiado largo
+  const MAX_TEMPERAMENT_LENGTH = 50;
+  const truncatedTemperament = props.temperament
+    ? props.temperament.length > MAX_TEMPERAMENT_LENGTH
+      ? props.temperament.slice(0, MAX_TEMPERAMENT_LENGTH) + "..."
+      : props.temperament
+    : "";
+
   let imgRout;
   if (props.image) {
     //viene algo en image, viene de API o de BD?
@@ -49,8 +57,10 @@ const Card = (props) => {
             <StyleImage src={imgNotDog} alt="Dogs" />
           )}
         </Link>
-        {props.temperament && <p>Temperamentos: {props.temperament}</p>}
-        {props.weight && <p>Peso: {props.weight}</p>}
+        {props.temperament && (
+          <StyledP>Temperamentos: {truncatedTemperament}</StyledP>
+        )}
+        {props.weight && <StyledP>Peso: {props.weight}</StyledP>}
       </CardContainer>
     );
   } else {
