@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Searchbar from "../Searchbar/Searchbar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Button,
   TitleContainer,
@@ -14,6 +14,7 @@ import { likesConut } from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 const NavBar = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const likesCount = useSelector((state) => state.likesCount);
 
@@ -31,7 +32,7 @@ const NavBar = () => {
   };
   useEffect(() => {
     if (likePulsed) {
-      setTextCountLikes(` - ${likesCount} Likes 🐶`);
+      setTextCountLikes(` | ${likesCount} Likes 🐶`);
     }
   }, [likesCount, likePulsed]);
 
@@ -51,7 +52,7 @@ const NavBar = () => {
           </Link>
         </ContentNavDiv>
         <ContentNavDiv>
-          <Searchbar />
+          {location.pathname === "/home" && <Searchbar />}
         </ContentNavDiv>
         <ContentNavDiv>
           <StyledP>Doglike! </StyledP>

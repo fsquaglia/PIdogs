@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import imgNotDog from "../../Assets/imgNotDog.png";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -10,6 +10,7 @@ import {
   DivTextDetailDog,
   StyledH3,
   StyledP,
+  StyledLikeP,
 } from "../../styles";
 
 require("dotenv").config();
@@ -24,6 +25,24 @@ const Card = (props) => {
       : props.temperament
     : "";
 
+  //!+++++++++++++
+  const [fav, setFav] = useState("🤍");
+  const handleFav = () => {
+    //una vez que se pulsó like ya no se ejecuta la acción en esta instancia de navegacion
+    // if (!likePulsed) {
+    //   setLike("❤️");
+    //   dispatch(likesConut());
+    //   setLikePulsed(true);
+    // }
+  };
+  // useEffect(() => {
+  //   if (likePulsed) {
+  //     setTextCountLikes(` | ${likesCount} Likes 🐶`);
+  //   }
+  // }, [likesCount, likePulsed]);
+  //!-------------
+
+  //tratamiento de la imagen a mostrar en la Card
   let imgRout;
   if (props.image) {
     //viene algo en image, viene de API o de BD?
@@ -43,6 +62,7 @@ const Card = (props) => {
     //*mostramos en el home/cards
     return (
       <CardContainer>
+        <StyledLikeP onClick={handleFav}>{fav}</StyledLikeP>
         {props.name && <StyledH3>{props.name}</StyledH3>}
         <Link to={`/details/${props.id}`}>
           {props.image ? (

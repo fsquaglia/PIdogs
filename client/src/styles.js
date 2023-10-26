@@ -143,14 +143,12 @@ export const PaginationButton = styled.button`
   font-family: ${fontCalibri};
   font-size: 16px;
   color: ${textBlackColor};
-  background: transparent;
-  border: none;
+  border: 1px solid ${principalColor};
   cursor: pointer;
-  transition: background-color 0.5s, color 0.5s;
-  &:hover {
-    background-color: ${principalColor};
-    color: white;
-  }
+  margin: 2px;
+  border-radius: 2px;
+  width: 30px;
+  text-align: center;
 `;
 
 //! En uso para estilos de imágenes no seleccionadas
@@ -167,7 +165,7 @@ export const StyledImage = styled.img`
   }
   /* Estilos para imágenes seleccionadas */
   &.selected {
-    border-color: #007bff; /* Cambia el color del borde para resaltar la imagen seleccionada */
+    border-color: #007bff;
   }
 `;
 
@@ -228,6 +226,17 @@ export const ContainerDivSubForm = styled.div`
   width: 700px;
 `;
 
+//! En uso para SubForm
+export const StyledTemperamentList = styled.div`
+  max-height: 200px;
+  overflow-y: auto;
+  width: 300px;
+  /* display: grid; */
+  /* grid-template-columns: 50% 50%; */
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
+  cursor: pointer;
+`;
 //! Div centrado en uso en Card
 export const CenteredDiv = styled.div`
   display: grid;
@@ -285,17 +294,6 @@ export const StyledFormContainer = styled.div`
   align-items: center;
 `;
 
-//! En uso para SubForm
-export const StyledTemperamentList = styled.div`
-  max-height: 200px;
-  overflow-y: auto;
-  width: 300px;
-  display: grid;
-  grid-template-columns: 50% 50%;
-  color: ${textBlackColor};
-  font-family: ${fontCalibri};
-`;
-
 //! Usado en Form
 export const StyledLabel = styled.label`
   color: ${textBlackColor};
@@ -319,18 +317,6 @@ export const ContentNavDiv = styled.div`
   justify-content: center;
   margin: 20px;
 `;
-
-//! en uso para el button de Like
-// export const SpanLike = styled.span`
-//   margin: 10px;
-//   height: 40px;
-//   width: auto;
-//   cursor: pointer;
-//   transition: transform 0.6s;
-//   &:hover {
-//     transform: scale(1.4);
-//   }
-// `;
 
 //! Usado en Navbar
 export const StyledLikeP = styled.p`
