@@ -8,7 +8,7 @@ import {
   setCurrentPage,
 } from "../../Redux/actions";
 import Cards from "../../Components/Cards/Cards";
-import { Select, StyledBlackSpan } from "../../styles";
+import { Select, StyledBlackSpan, Button } from "../../styles";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -48,6 +48,14 @@ const Home = () => {
     });
   }
 
+  //!handler del button resetear
+  const handleReset = () => {
+    dispatch(selectOrderValue("nameAZ"));
+    dispatch(selectOriginValue("all"));
+    dispatch(selectTemperValue("all"));
+    dispatch(filterAndOrder());
+  };
+
   return (
     <div>
       <StyledBlackSpan>Ordenar por raza/peso: </StyledBlackSpan>
@@ -84,6 +92,7 @@ const Home = () => {
           </option>
         ))}
       </Select>
+      <Button onClick={handleReset}>Resetear</Button>
 
       <Cards />
     </div>

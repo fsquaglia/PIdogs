@@ -13,6 +13,8 @@ import {
   DATALOADED,
   MESSAGEGLOBAL,
   LIKES_COUNT_SUCCESS,
+  DELETECARD,
+  DELETEDOGBD,
 } from "./actions-types";
 
 import axios from "axios";
@@ -21,6 +23,29 @@ require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
 const ENDLIKES = process.env.REACT_APP_ENDLIKES;
+
+//eliminar un Dog de la BD
+export const deleteDogById = (idDeleteDog) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(ENDDOGS + "/" + idDeleteDog);
+      dispatch({
+        type: MESSAGEGLOBAL,
+        payload: "Se eliminó el dog definitivamente",
+      });
+    } catch (error) {
+      alert("Hubo un error al eliminar: " + error.message);
+    }
+  };
+};
+
+//fn eliminar una card logica
+export const delete_card = (id) => {
+  return {
+    type: DELETECARD,
+    payload: id,
+  };
+};
 
 //fn para establacer un mensaje global
 export const message_global = (message) => {

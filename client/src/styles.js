@@ -329,3 +329,11 @@ export const StyledLikeP = styled.p`
     transform: scale(1.4);
   }
 `;
+
+//!usado en fav y delete de las card
+export const StyledDivCard = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 300px;
+`;

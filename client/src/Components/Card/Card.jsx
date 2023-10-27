@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import imgNotDog from "../../Assets/imgNotDog.png";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -11,12 +11,21 @@ import {
   StyledH3,
   StyledP,
   StyledLikeP,
+  StyledDivCard,
 } from "../../styles";
+import { useDispatch } from "react-redux";
+import {
+  allDogs,
+  deleteDogById,
+  delete_card,
+  filterAndOrder,
+} from "../../Redux/actions";
 
 require("dotenv").config();
 const ENDIMGS = process.env.REACT_APP_ENDIMGS;
 
 const Card = (props) => {
+  const dispatch = useDispatch();
   //truncamos el texto de temperaments si es demasiado largo
   const MAX_TEMPERAMENT_LENGTH = 50;
   const truncatedTemperament = props.temperament
@@ -27,20 +36,43 @@ const Card = (props) => {
 
   //!+++++++++++++
   const [fav, setFav] = useState("🤍");
+  const [favPulsed, setFavPulsed] = useState(false);
+
   const handleFav = () => {
-    //una vez que se pulsó like ya no se ejecuta la acción en esta instancia de navegacion
-    // if (!likePulsed) {
-    //   setLike("❤️");
-    //   dispatch(likesConut());
-    //   setLikePulsed(true);
-    // }
+    //una vez que se pulsó fav ya no se ejecuta la acción en esta instancia de navegacion
+    if (!favPulsed) {
+      setFav("❤️");
+      // dispatch(likesConut());
+      setFavPulsed(true);
+    }
   };
-  // useEffect(() => {
-  //   if (likePulsed) {
-  //     setTextCountLikes(` | ${likesCount} Likes 🐶`);
-  //   }
-  // }, [likesCount, likePulsed]);
+
+  useEffect(() => {
+    if (favPulsed) {
+      // setTextCountLikes(` | ${likesCount} Likes 🐶`);
+    }
+  }, [favPulsed]); //likesCount
   //!-------------
+
+  //handle para eliminar la Card
+  const handleDelete = async (dogObj) => {
+    if (dogObj.origin === "BD") {
+      const result = window.confirm(
+        "¿Seguro deseas eliminar el dog definitivamente?"
+      );
+      if (result) {
+        try {
+          await dispatch(deleteDogById(dogObj.id));
+          await dispatch(allDogs());
+          await dispatch(filterAndOrder());
+        } catch (error) {
+          console.error("Ocurrió un error al eliminar el perro:", error);
+        }
+      }
+    } else {
+      dispatch(delete_card(dogObj.id));
+    }
+  };
 
   //tratamiento de la imagen a mostrar en la Card
   let imgRout;
@@ -62,7 +94,10 @@ const Card = (props) => {
     //*mostramos en el home/cards
     return (
       <CardContainer>
-        <StyledLikeP onClick={handleFav}>{fav}</StyledLikeP>
+        <StyledDivCard>
+          <StyledLikeP onClick={handleFav}>{fav}</StyledLikeP>
+          <StyledLikeP onClick={() => handleDelete(props)}>❌</StyledLikeP>
+        </StyledDivCard>
         {props.name && <StyledH3>{props.name}</StyledH3>}
         <Link to={`/details/${props.id}`}>
           {props.image ? (
