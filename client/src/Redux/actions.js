@@ -19,18 +19,13 @@ import {
 } from "./actions-types";
 
 import axios from "axios";
-
-require("dotenv").config();
-const ENDDOGS = process.env.REACT_APP_ENDDOGS;
-const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
-const ENDLIKES = process.env.REACT_APP_ENDLIKES;
-const ENDLIKESDOGS = process.env.REACT_APP_ENDLIKESDOGS;
+//Tengo mi base url de axios en index.js --> axios.defaults.baseURL = "http://localhost:3001"
 
 //eliminar un Dog de la BD
 export const deleteDogById = (idDeleteDog) => {
   return async (dispatch) => {
     try {
-      await axios.delete("http://localhost:3001/dogs/" + idDeleteDog, null);
+      await axios.delete("/dogs/" + idDeleteDog, null);
       dispatch({
         type: MESSAGEGLOBAL,
         payload: "Se eliminó el dog definitivamente",
@@ -103,7 +98,7 @@ export const setCurrentPage = (page) => ({
 export const breedSearch = (breed) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(`${ENDDOGS}?name=${breed}`);
+      const { data } = await axios(`/dogs?name=${breed}`);
 
       dispatch({
         type: BREED_SEARCH,
@@ -119,7 +114,7 @@ export const breedSearch = (breed) => {
 export const allDogs = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(ENDDOGS);
+      const { data } = await axios.get("/dogs");
       dispatch({
         type: ALL_DOGS,
         payload: data,
@@ -134,7 +129,7 @@ export const allDogs = () => {
 export const dogById = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(ENDDOGS + "/" + id);
+      const { data } = await axios.get("/dogs/" + id);
 
       dispatch({
         type: DOGBYID,
@@ -150,7 +145,7 @@ export const dogById = (id) => {
 export const allTemperaments = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(ENDTEMPERAMENTS);
+      const { data } = await axios.get("/temperaments");
 
       dispatch({
         type: ALLTEMPERAMENTS,
@@ -166,7 +161,7 @@ export const allTemperaments = () => {
 export const postDogs = (dog) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(ENDDOGS, dog);
+      const { data } = await axios.post("/dogs", dog);
       dispatch({
         type: POSTDOG,
         payload: data.message,
@@ -181,7 +176,7 @@ export const postDogs = (dog) => {
 //fn buscar en BD por name
 export const dogbyName = async (name) => {
   try {
-    const { data } = await axios(`${ENDDOGS}?name=${name}`);
+    const { data } = await axios(`/dogs?name=${name}`);
     return data;
   } catch (error) {
     throw error.message;
@@ -192,7 +187,7 @@ export const dogbyName = async (name) => {
 export const likesConut = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios("http://localhost:3001/likes");
+      const { data } = await axios("/likes");
 
       dispatch({ type: LIKES_COUNT_SUCCESS, payload: data.message });
     } catch (error) {
@@ -205,7 +200,7 @@ export const likesConut = () => {
 export const likes_Dogs = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(ENDLIKESDOGS);
+      const { data } = await axios("/likesdogs");
       dispatch({
         type: LIKESDOGS,
         payload: data,
@@ -220,7 +215,7 @@ export const likes_Dogs = () => {
 export const putIncrementLikeDog = (id) => {
   return async (dispatch) => {
     try {
-      await axios.put(ENDLIKESDOGS + "/" + id);
+      await axios.put("/likesdogs/" + id);
       dispatch({
         type: MESSAGEGLOBAL,
         payload: "Like agregado",
@@ -235,7 +230,7 @@ export const putIncrementLikeDog = (id) => {
 export const delDog_Like = (id) => {
   return async (dispatch) => {
     try {
-      await axios.delete("http://localhost:3001/likesdogs/" + id);
+      await axios.delete("/likesdogs/" + id);
       dispatch({
         type: MESSAGEGLOBAL,
         payload: "Dog Likes eliminados",
