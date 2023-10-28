@@ -15,6 +15,7 @@ import {
   LIKES_COUNT_SUCCESS,
   DELETECARD,
   DELETEDOGBD,
+  LIKESDOGS,
 } from "./actions-types";
 
 import axios from "axios";
@@ -23,12 +24,13 @@ require("dotenv").config();
 const ENDDOGS = process.env.REACT_APP_ENDDOGS;
 const ENDTEMPERAMENTS = process.env.REACT_APP_ENDTEMPERAMENTS;
 const ENDLIKES = process.env.REACT_APP_ENDLIKES;
+const ENDLIKESDOGS = process.env.REACT_APP_ENDLIKESDOGS;
 
 //eliminar un Dog de la BD
 export const deleteDogById = (idDeleteDog) => {
   return async (dispatch) => {
     try {
-      await axios.delete(ENDDOGS + "/" + idDeleteDog);
+      await axios.delete("http://localhost:3001/dogs/" + idDeleteDog, null);
       dispatch({
         type: MESSAGEGLOBAL,
         payload: "Se eliminó el dog definitivamente",
@@ -195,6 +197,51 @@ export const likesConut = () => {
       dispatch({ type: LIKES_COUNT_SUCCESS, payload: data.message });
     } catch (error) {
       alert("Hubo un error al obtener los likes: " + error.message);
+    }
+  };
+};
+
+//fn obtener la tabla de Likes por Dogs
+export const likes_Dogs = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios(ENDLIKESDOGS);
+      dispatch({
+        type: LIKESDOGS,
+        payload: data,
+      });
+    } catch (error) {
+      alert("Error al obtener los likes por dogs " + error.message);
+    }
+  };
+};
+
+//fn incrementar un like a un dog
+export const putIncrementLikeDog = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.put(ENDLIKESDOGS + "/" + id);
+      dispatch({
+        type: MESSAGEGLOBAL,
+        payload: "Like agregado",
+      });
+    } catch (error) {
+      alert("No se pudo agregar el like " + error.message);
+    }
+  };
+};
+
+//fn eliminar dog de Modelo LikesDogs
+export const delDog_Like = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete("http://localhost:3001/likesdogs/" + id);
+      dispatch({
+        type: MESSAGEGLOBAL,
+        payload: "Dog Likes eliminados",
+      });
+    } catch (error) {
+      alert("No se pudo eliminar el dog like " + error.message);
     }
   };
 };

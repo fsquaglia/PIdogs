@@ -13,3 +13,4 @@ export const MESSAGEGLOBAL = "messageGlobal";
 export const LIKES_COUNT_SUCCESS = "likesCount";
 export const DELETECARD = "deletecard";
 export const DELETEDOGBD = "deleteDogFromBD";
+export const LIKESDOGS = "likesDogs";

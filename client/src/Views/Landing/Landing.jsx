@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { allDogs, allTemperaments, filterAndOrder } from "../../Redux/actions";
+import {
+  allDogs,
+  allTemperaments,
+  filterAndOrder,
+  likes_Dogs,
+} from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { data_loaded } from "../../Redux/actions";
 import { Button, ContainerDiv, ContentDiv, TextP } from "../../styles";
@@ -26,6 +31,7 @@ const Landing = () => {
         dispatch(allTemperaments());
         setButtonDisabled(false);
         dispatch(data_loaded(true));
+        dispatch(likes_Dogs());
       }, delay);
     }
   }, [dispatch, dataLoaded]);

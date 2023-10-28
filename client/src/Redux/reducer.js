@@ -14,6 +14,7 @@ import {
   MESSAGEGLOBAL,
   LIKES_COUNT_SUCCESS,
   DELETECARD,
+  LIKESDOGS,
 } from "./actions-types";
 
 //definir el initialState
@@ -31,12 +32,19 @@ let initialState = {
   message: "",
   dataLoaded: false,
   likesCount: 0,
+  likesDogs: [],
 };
 
 //definir la función rootReducer
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case LIKESDOGS:
+      return {
+        ...state,
+        likesDogs: action.payload,
+      };
+
     case DELETECARD: //eliminar una Card, logica y/o fisica
       return {
         ...state,

@@ -280,13 +280,6 @@ export const StyledH3 = styled.h3`
   font-family: ${fontCalibri};
 `;
 
-//! Usado en ViewAbout, SubForm, Card
-export const StyledP = styled.p`
-  color: ${textBlackColor};
-  font-family: ${fontCalibri};
-  font-size: 16px;
-`;
-
 //! En uso para SubForm
 export const StyledFormContainer = styled.div`
   display: flex;
@@ -318,16 +311,37 @@ export const ContentNavDiv = styled.div`
   margin: 20px;
 `;
 
-//! Usado en Navbar
+//! Usado en Navbar y Card
 export const StyledLikeP = styled.p`
   margin: 0px 10px;
   height: 40px;
   width: auto;
   cursor: pointer;
   transition: transform 0.6s;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
+  font-size: 16px;
   &:hover {
     transform: scale(1.4);
   }
+`;
+
+//! Usado en Navbar y Card
+export const StyledLikeP1 = styled.p`
+  margin: 0px 10px;
+  height: 40px;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.6s;
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
+  font-size: 16px;
+`;
+//! Usado en ViewAbout, SubForm, Card
+export const StyledP = styled.p`
+  color: ${textBlackColor};
+  font-family: ${fontCalibri};
+  font-size: 16px;
 `;
 
 //!usado en fav y delete de las card
@@ -336,4 +350,13 @@ export const StyledDivCard = styled.div`
   justify-content: space-between;
   position: absolute;
   width: 300px;
+`;
+
+//!en uso en div fav y del Card
+export const StyledFavDel = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
