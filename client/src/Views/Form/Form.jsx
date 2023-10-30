@@ -127,8 +127,8 @@ const Form = () => {
     const lifeString = `${dogData.lifeMin} - ${dogData.lifeMax} years`;
     const dogSend = {
       name: dogData.name,
-      height: weightString,
-      weight: heightString,
+      weight: weightString,
+      height: heightString,
       life_span: lifeString,
       temperaments: idTemperSelected,
       image: dogData.image,
