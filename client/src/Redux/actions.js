@@ -17,10 +17,19 @@ import {
   DELETEDOGBD,
   LIKESDOGS,
   BREEDNAMEGLOBAL,
+  LIKEDOGPULSED,
 } from "./actions-types";
 
 import axios from "axios";
 //Tengo mi base url de axios en index.js --> axios.defaults.baseURL = "http://localhost:3001"
+
+//almaceno el id de la card a la que se le pulsa Like
+export const like_dog_pulsed = (id) => {
+  return {
+    type: LIKEDOGPULSED,
+    payload: id,
+  };
+};
 
 //almacenar valor de input de SearchBar
 export const breed_name_global = (value) => {

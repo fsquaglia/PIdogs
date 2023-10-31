@@ -15,3 +15,4 @@ export const DELETECARD = "deletecard";
 export const DELETEDOGBD = "deleteDogFromBD";
 export const LIKESDOGS = "likesDogs";
 export const BREEDNAMEGLOBAL = "breed_name_global";
+export const LIKEDOGPULSED = "likedogpulsed";
