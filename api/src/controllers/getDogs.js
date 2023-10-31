@@ -1,7 +1,5 @@
-const axios = require("axios");
-const { Dog, Temperament } = require("../db");
-require("dotenv").config();
-const { ENDPOINT, API_KEY } = process.env;
+const { allDogsAPI } = require("../handlers/getDogsFromAPI");
+const { allDogsBD } = require("../handlers/getDogsFromBD");
 
 const getDogs = async (req, res) => {
   //GET | /dogs (todas las razas de perros, o las solicitadas por query)
@@ -9,50 +7,9 @@ const getDogs = async (req, res) => {
   let allDogs = [];
 
   try {
-    //*busco todos los dogs de la API
-    const { data } = await axios.get(ENDPOINT + "?api_key=" + API_KEY);
-
-    const dogsApi = data.map((obj) => ({
-      name: obj.name,
-      id: obj.id,
-      reference_image_id: obj.reference_image_id,
-      height: `${obj.height.metric} cm | ${obj.height.imperial} in`,
-      weight: `${obj.weight.metric} kg | ${obj.weight.imperial} lbs`,
-      life_span: obj.life_span,
-      temperament: obj.temperament,
-      origin: "API",
-    }));
-
-    //*busco todos los dogs de la BD
-    const dogs = await Dog.findAll({
-      where: {},
-      include: [
-        {
-          model: Temperament,
-          through: { attributes: [] },
-          attributes: ["name"],
-        },
-      ],
-    });
-    // Arreglo para almacenar los resultados formateados
-    const dogsBD = [];
-
-    dogs.forEach((dog) => {
-      const temperaments = dog.Temperaments.map((temp) => temp.name).join(", ");
-      const formattedDog = {
-        id: dog.id,
-        name: dog.name,
-        reference_image_id: dog.reference_image_id,
-        height: dog.height,
-        weight: dog.weight,
-        life_span: dog.life_span,
-        temperament: temperaments,
-        origin: "BD",
-      };
-      dogsBD.push(formattedDog);
-    });
-    //*junto los datos de API y BD
-    allDogs = [...dogsApi, ...dogsBD];
+    const dogsApi = await allDogsAPI(); //todos los dogs de la API
+    const dogsBD = await allDogsBD(); //todos los dogs de la BD
+    allDogs = [...dogsApi, ...dogsBD]; //junto los datos de API y BD
 
     //! compruebo si llegó algo por query
     if (name) {

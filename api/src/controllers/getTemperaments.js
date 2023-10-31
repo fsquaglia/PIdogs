@@ -1,44 +1,11 @@
-const axios = require("axios");
 const { Temperament } = require("../db");
-require("dotenv").config();
-const { ENDPOINT, API_KEY } = process.env;
+const { allTempAPI } = require("../handlers/getTempFromAPI");
 
 const getTemperaments = async (req, res) => {
   try {
-    const { data } = await axios.get(ENDPOINT + "?api_key=" + API_KEY);
-    //extraigo todos los string con los temperamentos
-    //devuelve un array con elementos, cada elemento
-    //es un string de temperamentos delimitados por comas
-    let newArray = [];
-    data.forEach((dogData) => {
-      if (dogData.temperament) newArray.push(dogData.temperament);
-    });
-
-    const arrTemperam = newArray.flatMap((element) => element.split(","));
-
-    //elimino los espacios al principio de cada string si los hay
-    let arrTempWithoutSpace = [];
-    arrTemperam.forEach((element) => {
-      arrTempWithoutSpace.push(element?.trimStart());
-    });
-
-    //elimino los elementos duplicados
-    let arraySet = [];
-
-    for (let i = 0; i < arrTempWithoutSpace.length; i++) {
-      if (arraySet.indexOf(arrTempWithoutSpace[i]) === -1) {
-        arraySet.push(arrTempWithoutSpace[i]);
-      }
-    }
-
-    //!creo el array de objetos traidos de la API dogsTemperaments
-    const dogsTemperaments = [];
-    arraySet.forEach((e) => {
-      dogsTemperaments.push({ name: e });
-    });
+    const dogsTemperaments = await allTempAPI(); //Temperamentos de la API
 
     //verificar si los datos que voy a ingresar a la BD están duplicados
-    //!aqui estarán los datos de la BD temperamentsDB
     const temperamentsDB = await Temperament.findAll();
 
     let tBD;

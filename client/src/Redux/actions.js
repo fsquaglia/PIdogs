@@ -16,10 +16,19 @@ import {
   DELETECARD,
   DELETEDOGBD,
   LIKESDOGS,
+  BREEDNAMEGLOBAL,
 } from "./actions-types";
 
 import axios from "axios";
 //Tengo mi base url de axios en index.js --> axios.defaults.baseURL = "http://localhost:3001"
+
+//almacenar valor de input de SearchBar
+export const breed_name_global = (value) => {
+  return {
+    type: BREEDNAMEGLOBAL,
+    payload: value,
+  };
+};
 
 //eliminar un Dog de la BD
 export const deleteDogById = (idDeleteDog) => {

@@ -15,6 +15,7 @@ import {
   LIKES_COUNT_SUCCESS,
   DELETECARD,
   LIKESDOGS,
+  BREEDNAMEGLOBAL,
 } from "./actions-types";
 
 //definir el initialState
@@ -31,14 +32,20 @@ let initialState = {
   filterByTemperamValue: "all",
   message: "",
   dataLoaded: false,
-  likesCount: 0,
+  likesCount: "",
   likesDogs: [],
+  breedNameGlobal: "",
 };
 
 //definir la función rootReducer
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case BREEDNAMEGLOBAL:
+      return {
+        ...state,
+        breedNameGlobal: action.payload,
+      };
     case LIKESDOGS:
       return {
         ...state,

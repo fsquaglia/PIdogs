@@ -1,9 +1,9 @@
 import React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   allDogs,
   breedSearch,
+  breed_name_global,
   filterAndOrder,
   setCurrentPage,
 } from "../../Redux/actions";
@@ -11,44 +11,44 @@ import { Button, InputBig } from "../../styles";
 
 const Searchbar = () => {
   const dispatch = useDispatch();
-
-  const [breedName, setBreedname] = useState("");
+  const breedNameGlobal = useSelector((state) => state.breedNameGlobal);
 
   //aplicar el filtro por raza o name
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await dispatch(breedSearch(breedName));
-    dispatch(filterAndOrder());
-    dispatch(setCurrentPage(1));
+  const handleSubmit = async () => {
+    if (breedNameGlobal) {
+      await dispatch(breedSearch(breedNameGlobal));
+      dispatch(filterAndOrder());
+      dispatch(setCurrentPage(1));
+    }
   };
 
   //mostrar todos los dogs, es decir quitamos el filtro por raza o name
   const handleClicShowAll = async () => {
     await dispatch(allDogs());
     dispatch(filterAndOrder());
-    setBreedname("");
+    dispatch(breed_name_global(""));
   };
 
   const handleChange = (e) => {
-    setBreedname(e.target.value);
+    dispatch(breed_name_global(e.target.value));
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <InputBig
-          type="text"
-          name="breedSearch"
-          id="breedSearch"
-          onChange={handleChange}
-          value={breedName}
-          placeholder="Busca una raza"
-        />
-        <Button type="submit">Buscar</Button>
-        <Button type="button" onClick={handleClicShowAll}>
-          Todos
-        </Button>
-      </form>
+      <InputBig
+        type="text"
+        name="breedSearch"
+        id="breedSearch"
+        onChange={handleChange}
+        value={breedNameGlobal}
+        placeholder="Busca una raza"
+      />
+      <Button type="button" onClick={handleSubmit}>
+        Buscar
+      </Button>
+      <Button type="button" onClick={handleClicShowAll}>
+        Todos
+      </Button>
     </div>
   );
 };

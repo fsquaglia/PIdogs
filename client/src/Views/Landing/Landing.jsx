@@ -29,9 +29,9 @@ const Landing = () => {
         //cargando los estados globales
         dispatch(allDogs()).then(() => dispatch(filterAndOrder()));
         dispatch(allTemperaments());
-        setButtonDisabled(false);
         dispatch(data_loaded(true));
         dispatch(likes_Dogs());
+        setButtonDisabled(false);
       }, delay);
     }
   }, [dispatch, dataLoaded]);
