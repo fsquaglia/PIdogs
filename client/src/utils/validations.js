@@ -1,5 +1,6 @@
 export default function validations(data) {
   let errors = {};
+  const regexName = /^[A-Za-z\s]+$/;
 
   //tratamiento del name/nombre de la raza
   if (!data.name) {
@@ -10,7 +11,8 @@ export default function validations(data) {
     } else {
       if (data.name.length < 3 || data.name.length > 25)
         errors.name = "Raza entre 3 y 25 caracteres";
-      if (/\d/.test(data.name)) errors.name = "No uses números en el nombre";
+      if (!regexName.test(data.name))
+        errors.name = "Usa solo letras y espacios";
     }
   }
 
@@ -19,7 +21,7 @@ export default function validations(data) {
     errors.height = "Ingresa las alturas";
   } else {
     if (Number(data.heightMin) <= 0 || Number(data.heightMax) <= 0) {
-      errors.height = "Las alturas no pueden ser igual a cero";
+      errors.height = "La altura debe ser mayor que cero";
     } else {
       if (Number(data.heightMin) >= Number(data.heightMax)) {
         errors.height = "La altura Max debe superar a la Min";
